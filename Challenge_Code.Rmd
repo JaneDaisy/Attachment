@@ -27,11 +27,16 @@ library (tmaptools)#additional tools for maps
 # changing .xlsx to csv 
 ```{r}
 # Correct file path
-excel_file <- "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/Mangrove_sample_data.xlsx"
+#excel_file <- "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/Mangrove_sample_data.xlsx"
+
+
+excel_file<-"./Jane Daisy_Challenge/Mangrove_sample_data.xlsx"
 
 # Read the first sheet of the Excel file
 data_excel <- read.xlsx(excel_file, sheet = 1)
-data_locale <- "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/output_file.csv"
+#data_locale <- "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/output_file.csv"
+data_locale <- "./Jane Daisy_Challenge/output_file.csv"
+
 # Save as CSV
 write.csv(data_excel, data_locale, row.names = FALSE)
 
@@ -102,7 +107,8 @@ sf_data <- st_as_sf(DD_coordinates, coords = c("Long_decimal", "Lat_decimal"), c
 
 # Check the structure of the spatial data
 print(sf_data)
-shapefile_path <- "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/output_shapefile.shp"
+#shapefile_path <- "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/output_shapefile.shp"
+shapefile_path <-"./Jane Daisy_Challenge/output_shapefile.shp"
 st_write(sf_data, shapefile_path, delete_layer = TRUE)
 
 
@@ -132,10 +138,16 @@ st_write(sf_data, shapefile_path, delete_layer = TRUE)
 ```{r}
 
 # Load the mangrove points (output_shapefile)
-sf_mangrove <- st_read("C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/output_shapefile.shp")
+#sf_mangrove <- st_read("C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/output_shapefile.shp")
+sf_mangrove <-st_read("./Jane Daisy_Challenge/output_shapefile.shp")
+
 
 # Load Lamu County shapefile
-lamu_boundary <- st_read("C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/Lamu_County.shp")
+#lamu_boundary <- st_read("C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/Lamu_County.shp")
+lamu_boundary <- st_read("./Jane Daisy_Challenge/Lamu_County.shp")
+
+
+
 
 # Ensure both layers have the same CRS
 sf_mangrove <- st_transform(sf_mangrove, crs = 4326)
@@ -164,8 +176,8 @@ lamu_map <- tm_shape(lamu_boundary) +
 lamu_map
 
 # Save the map
-tmap_save(lamu_map, filename = "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/lamu_mangrove_map.png")
+#tmap_save(lamu_map, filename = "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/lamu_mangrove_map.png")
+tmap_save(lamu_map, filename = "./Jane Daisy_Challenge/lamu_mangrove_map.png")
 #
 
 ```
-
