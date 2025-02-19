@@ -165,7 +165,7 @@ lamu_map
 
 # Save the map
 tmap_save(lamu_map, filename = "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/lamu_mangrove_map.png")
-
+#
 
 ```
 
