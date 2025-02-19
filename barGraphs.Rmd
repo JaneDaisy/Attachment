@@ -1,0 +1,66 @@
+---
+title: "Graphs_visualization"
+author: "Daisy"
+date: "2025-02-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Libraries
+```{r }
+library(readxl)
+library(ggplot2)
+library(openxlsx) 
+library(dplyr)
+```
+
+#Summarize Stumps Per Block
+```{r}
+data_excel <- "./Daisy_Challenge2/Mangrove_sample_data.xlsx" 
+df <- read.xlsx(data_excel, sheet = 1)
+
+
+df_summary <- df %>%
+  group_by(Block_Names) %>%
+  summarise(Total_Stumps = sum(Stumps, na.rm = TRUE))
+
+print(df_summary)  
+```
+
+```{r}
+ggplot(df_summary, aes(x = Block_Names, y = Total_Stumps, fill = Block_Names)) +
+  geom_bar(stat = "identity") + #use actual values from df_summary
+  labs(title = "Degradation by Stumps in Different Blocks",
+       x = "Block Name",
+       y = "Total Stumps (Degradation Level)") +
+  theme_minimal() +
+  theme(legend.position = "none")  # Remove legend since colors just help differentiate
+
+```
+
+```{r}
+data_excelsheet <- "./Daisy_Challenge2/Mangrove_sample_data.xlsx" 
+df1 <- read.xlsx(data_excelsheet, sheet = 1)
+
+
+df_summary1 <- df1 %>%
+  group_by(Forest_Typ) %>%
+  summarise(Total_Stumps = sum(Stumps, na.rm = TRUE))
+
+print(df_summary1) 
+```
+```{r}
+ggplot(df_summary1, aes(x = Forest_Typ, y = Total_Stumps, fill = Forest_Typ)) +
+  geom_bar(stat = "identity") + #use actual values from df_summary1
+  labs(title = "Degradation by Stumps in Different Blocks",
+       x = "Forest_Typ",
+       y = "Total Stumps (Degradation Level)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) + # Rotate labels 45 degrees
+  theme(legend.position = "none")  # Remove legend since colors just help differentiate
+```
+
