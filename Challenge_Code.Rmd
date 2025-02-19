@@ -179,5 +179,5 @@ lamu_map
 #tmap_save(lamu_map, filename = "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/lamu_mangrove_map.png")
 tmap_save(lamu_map, filename = "./Jane Daisy_Challenge/lamu_mangrove_map.png")
 #
-
+#
 ```
