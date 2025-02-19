@@ -1,0 +1,572 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Challenge\_2},
+  pdfauthor={Daisy},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Challenge\_2}
+\author{Daisy}
+\date{2025-02-18}
+
+\begin{document}
+\maketitle
+
+\#libraries
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)    }\CommentTok{\# Data manipulation}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyr)    }\CommentTok{\# Data tidying}
+\FunctionTok{library}\NormalTok{(stringr)  }\CommentTok{\# String manipulation}
+\FunctionTok{library}\NormalTok{(sf) }\CommentTok{\# Spatial data (Shapefile export)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Linking to GEOS 3.13.0, GDAL 3.10.1, PROJ 9.5.1; sf_use_s2() is TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(sp) }
+\FunctionTok{library}\NormalTok{(readr)    }\CommentTok{\# Reading data (CSV, etc.)}
+\FunctionTok{library}\NormalTok{(bslib)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'bslib'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:utils':
+## 
+##     page
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(openxlsx) }\CommentTok{\# for the excel}
+\FunctionTok{library}\NormalTok{(tmap)}
+\FunctionTok{library}\NormalTok{ (tmaptools)}\CommentTok{\#additional tools for maps}
+\end{Highlighting}
+\end{Shaded}
+
+\section{changing .xlsx to csv}\label{changing-.xlsx-to-csv}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Correct file path}
+\CommentTok{\#excel\_file \textless{}{-} "C:/Users/Cordio ea/Documents/Jane Daisy\_Challenge/Mangrove\_sample\_data.xlsx"}
+
+
+\NormalTok{excel\_file}\OtherTok{\textless{}{-}}\StringTok{"./Jane Daisy\_Challenge/Mangrove\_sample\_data.xlsx"}
+
+\CommentTok{\# Read the first sheet of the Excel file}
+\NormalTok{data\_excel }\OtherTok{\textless{}{-}} \FunctionTok{read.xlsx}\NormalTok{(excel\_file, }\AttributeTok{sheet =} \DecValTok{1}\NormalTok{)}
+\CommentTok{\#data\_locale \textless{}{-} "C:/Users/Cordio ea/Documents/Jane Daisy\_Challenge/output\_file.csv"}
+\NormalTok{data\_locale }\OtherTok{\textless{}{-}} \StringTok{"./Jane Daisy\_Challenge/output\_file.csv"}
+
+\CommentTok{\# Save as CSV}
+\FunctionTok{write.csv}\NormalTok{(data\_excel, data\_locale, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+
+
+\NormalTok{site\_coordinates }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(data\_locale)}
+\CommentTok{\# Display the first 5 rows of the data}
+\FunctionTok{head}\NormalTok{(site\_coordinates, }\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   OBJECTID       ID  Date        Observers   Block        Site Site_ID Plot_No
+## 1        1        X 42067           Hashim Pethali Shinda kasi   PET_1       4
+## 2        2   PCPO 8 42067           Hashim Pethali    Chongoni   PET_2       0
+## 3        4      PC9 42067 Judith and group Pethali    Chongoni   PET_4       9
+## 4        5      PC3 42067 Judith and group Pethali    Chongoni   PET_5       3
+## 5        6 SSSiyu A 42068   Hashim, Judith    Siyu  Siyu Jetty   SIY_1       0
+##            Lat          Lon              Forest_Typ Vegetation Stumps
+## 1  -2°8'31.06"  40°58'9.52"            R. mucronata         70      2
+## 2 -2°12'20.74" 40°59'45.35"            R. mucronata         34      1
+## 3  -2°10'1.81" 40°57'54.76" R. mucronata, A. marina         15      1
+## 4  -2°8'34.87" 40°57'49.32" R. mucronata, A. marina         55      0
+## 5   -2°5'9.02"  41°3'17.57"                C. tagal         70      0
+##   Inudation_        Status Block_Names
+## 1          1 P_transect_ii     Pethali
+## 2          1  P_Spot_check     Pethali
+## 3          1  P_transect_i     Pethali
+## 4          1 P_transect_ii     Pethali
+## 5          3  S_spot_check        Siyu
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{coordinate\_extracted }\OtherTok{\textless{}{-}}\NormalTok{ site\_coordinates }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \CommentTok{\# Extract Degrees, Minutes, and Seconds for Latitude}
+    \AttributeTok{Lat\_degrees =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{str\_extract}\NormalTok{(Lat, }\StringTok{"\^{}}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{{-}?}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d+(?=°)"}\NormalTok{)),  }\CommentTok{\# Extract degrees (allow for negative)}
+    \AttributeTok{Lat\_minutes =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{str\_extract}\NormalTok{(Lat, }\StringTok{"(?\textless{}=°)}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d+(?=\textquotesingle{})"}\NormalTok{)),  }\CommentTok{\# Extract minutes (after degree symbol)}
+   \AttributeTok{Lat\_seconds =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{str\_extract}\NormalTok{(Lat, }\StringTok{"(?\textless{}=\textquotesingle{})}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d+(}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{.}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d+)?(?=}\SpecialCharTok{\textbackslash{}"}\StringTok{)"}\NormalTok{)),  }\CommentTok{\# Extract seconds with decimal (after minutes)}
+
+    \CommentTok{\# Extract Degrees, Minutes, and Seconds for Longitude}
+    \AttributeTok{Long\_degrees =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{str\_extract}\NormalTok{(Lon, }\StringTok{"\^{}}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{{-}?}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d+(?=°)"}\NormalTok{)),  }\CommentTok{\# Extract degrees (allow for negative)}
+    \AttributeTok{Long\_minutes =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{str\_extract}\NormalTok{(Lon, }\StringTok{"(?\textless{}=°)}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d+(?=\textquotesingle{})"}\NormalTok{)),  }\CommentTok{\# Extract minutes (after degree symbol)}
+       \AttributeTok{Long\_seconds =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{str\_extract}\NormalTok{(Lon, }\StringTok{"(?\textless{}=\textquotesingle{})}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d+(}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{.}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d+)?(?=}\SpecialCharTok{\textbackslash{}"}\StringTok{)"}\NormalTok{))  }\CommentTok{\# Extract seconds with decimal (after minutes)}
+\NormalTok{  )}
+
+\CommentTok{\# Check the first few rows of the data after extraction}
+\FunctionTok{head}\NormalTok{(coordinate\_extracted, }\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   OBJECTID       ID  Date        Observers   Block        Site Site_ID Plot_No
+## 1        1        X 42067           Hashim Pethali Shinda kasi   PET_1       4
+## 2        2   PCPO 8 42067           Hashim Pethali    Chongoni   PET_2       0
+## 3        4      PC9 42067 Judith and group Pethali    Chongoni   PET_4       9
+## 4        5      PC3 42067 Judith and group Pethali    Chongoni   PET_5       3
+## 5        6 SSSiyu A 42068   Hashim, Judith    Siyu  Siyu Jetty   SIY_1       0
+##            Lat          Lon              Forest_Typ Vegetation Stumps
+## 1  -2°8'31.06"  40°58'9.52"            R. mucronata         70      2
+## 2 -2°12'20.74" 40°59'45.35"            R. mucronata         34      1
+## 3  -2°10'1.81" 40°57'54.76" R. mucronata, A. marina         15      1
+## 4  -2°8'34.87" 40°57'49.32" R. mucronata, A. marina         55      0
+## 5   -2°5'9.02"  41°3'17.57"                C. tagal         70      0
+##   Inudation_        Status Block_Names Lat_degrees Lat_minutes Lat_seconds
+## 1          1 P_transect_ii     Pethali          -2           8       31.06
+## 2          1  P_Spot_check     Pethali          -2          12       20.74
+## 3          1  P_transect_i     Pethali          -2          10        1.81
+## 4          1 P_transect_ii     Pethali          -2           8       34.87
+## 5          3  S_spot_check        Siyu          -2           5        9.02
+##   Long_degrees Long_minutes Long_seconds
+## 1           40           58         9.52
+## 2           40           59        45.35
+## 3           40           57        54.76
+## 4           40           57        49.32
+## 5           41            3        17.57
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{coordinate\_cleaned }\OtherTok{\textless{}{-}}\NormalTok{ coordinate\_extracted }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \CommentTok{\# Clean Latitude and Longitude Degrees, Minutes, and Seconds}
+    \AttributeTok{Lat\_degrees =} \FunctionTok{as.numeric}\NormalTok{(Lat\_degrees),  }\CommentTok{\# Ensure degrees are numeric}
+    \AttributeTok{Lat\_minutes =} \FunctionTok{as.numeric}\NormalTok{(Lat\_minutes),  }\CommentTok{\# Ensure minutes are numeric}
+    \AttributeTok{Lat\_seconds =} \FunctionTok{as.numeric}\NormalTok{(Lat\_seconds),  }\CommentTok{\# Ensure seconds are numeric}
+    
+    \AttributeTok{Long\_degrees =} \FunctionTok{as.numeric}\NormalTok{(Long\_degrees),  }\CommentTok{\# Ensure degrees are numeric}
+    \AttributeTok{Long\_minutes =} \FunctionTok{as.numeric}\NormalTok{(Long\_minutes),  }\CommentTok{\# Ensure minutes are numeric}
+    \AttributeTok{Long\_seconds =} \FunctionTok{as.numeric}\NormalTok{(Long\_seconds),  }\CommentTok{\# Ensure seconds are numeric}
+    
+    \CommentTok{\# Adjust for negative values (if applicable)}
+    \AttributeTok{Lat\_degrees =} \FunctionTok{if\_else}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(Lat, }\StringTok{"S"}\NormalTok{), }\SpecialCharTok{{-}}\NormalTok{Lat\_degrees, Lat\_degrees),  }\CommentTok{\# Handle Southern Hemisphere}
+    \AttributeTok{Long\_degrees =} \FunctionTok{if\_else}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(Lon, }\StringTok{"W"}\NormalTok{), }\SpecialCharTok{{-}}\NormalTok{Long\_degrees, Long\_degrees),  }\CommentTok{\# Handle Western Hemisphere}
+    
+    \CommentTok{\# Convert Latitude and Longitude to Decimal Degrees (DD)}
+    \AttributeTok{Lat\_decimal =}\NormalTok{ Lat\_degrees }\SpecialCharTok{+}\NormalTok{ (Lat\_minutes }\SpecialCharTok{/} \DecValTok{60}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ (Lat\_seconds }\SpecialCharTok{/} \DecValTok{3600}\NormalTok{),}
+    \AttributeTok{Long\_decimal =}\NormalTok{ Long\_degrees }\SpecialCharTok{+}\NormalTok{ (Long\_minutes }\SpecialCharTok{/} \DecValTok{60}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ (Long\_seconds }\SpecialCharTok{/} \DecValTok{3600}\NormalTok{)}
+\NormalTok{  )}
+
+\CommentTok{\# Check the first few rows after cleaning and conversion}
+\CommentTok{\#head(coordinate\_cleaned, 5)}
+\CommentTok{\# Save as CSV}
+\FunctionTok{write.csv}\NormalTok{(coordinate\_cleaned, data\_locale, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{DD\_coordinates }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(data\_locale)}
+
+\CommentTok{\# Display the first 5 rows of the data}
+\FunctionTok{head}\NormalTok{(DD\_coordinates, }\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   OBJECTID       ID  Date        Observers   Block        Site Site_ID Plot_No
+## 1        1        X 42067           Hashim Pethali Shinda kasi   PET_1       4
+## 2        2   PCPO 8 42067           Hashim Pethali    Chongoni   PET_2       0
+## 3        4      PC9 42067 Judith and group Pethali    Chongoni   PET_4       9
+## 4        5      PC3 42067 Judith and group Pethali    Chongoni   PET_5       3
+## 5        6 SSSiyu A 42068   Hashim, Judith    Siyu  Siyu Jetty   SIY_1       0
+##            Lat          Lon              Forest_Typ Vegetation Stumps
+## 1  -2°8'31.06"  40°58'9.52"            R. mucronata         70      2
+## 2 -2°12'20.74" 40°59'45.35"            R. mucronata         34      1
+## 3  -2°10'1.81" 40°57'54.76" R. mucronata, A. marina         15      1
+## 4  -2°8'34.87" 40°57'49.32" R. mucronata, A. marina         55      0
+## 5   -2°5'9.02"  41°3'17.57"                C. tagal         70      0
+##   Inudation_        Status Block_Names Lat_degrees Lat_minutes Lat_seconds
+## 1          1 P_transect_ii     Pethali          -2           8       31.06
+## 2          1  P_Spot_check     Pethali          -2          12       20.74
+## 3          1  P_transect_i     Pethali          -2          10        1.81
+## 4          1 P_transect_ii     Pethali          -2           8       34.87
+## 5          3  S_spot_check        Siyu          -2           5        9.02
+##   Long_degrees Long_minutes Long_seconds Lat_decimal Long_decimal
+## 1           40           58         9.52   -1.858039     40.96931
+## 2           40           59        45.35   -1.794239     40.99593
+## 3           40           57        54.76   -1.832831     40.96521
+## 4           40           57        49.32   -1.856981     40.96370
+## 5           41            3        17.57   -1.914161     41.05488
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Convert to sf object (Spatial Data Frame)}
+\NormalTok{sf\_data }\OtherTok{\textless{}{-}} \FunctionTok{st\_as\_sf}\NormalTok{(DD\_coordinates, }\AttributeTok{coords =} \FunctionTok{c}\NormalTok{(}\StringTok{"Long\_decimal"}\NormalTok{, }\StringTok{"Lat\_decimal"}\NormalTok{), }\AttributeTok{crs =} \DecValTok{4326}\NormalTok{)}
+
+
+\CommentTok{\# Check the structure of the spatial data}
+\FunctionTok{print}\NormalTok{(sf\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Simple feature collection with 75 features and 22 fields
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: 40.9637 ymin: -1.995569 xmax: 41.49423 ymax: -0.007111111
+## Geodetic CRS:  WGS 84
+## First 10 features:
+##    OBJECTID             ID  Date         Observers   Block        Site Site_ID
+## 1         1              X 42067            Hashim Pethali Shinda kasi   PET_1
+## 2         2         PCPO 8 42067            Hashim Pethali    Chongoni   PET_2
+## 3         4            PC9 42067  Judith and group Pethali    Chongoni   PET_4
+## 4         5            PC3 42067  Judith and group Pethali    Chongoni   PET_5
+## 5         6       SSSiyu A 42068    Hashim, Judith    Siyu  Siyu Jetty   SIY_1
+## 6         7       SSSiyu C 42068            Judith    Siyu        Siyu   SIY_2
+## 7         8 SSSpot Check 1 42068 Judith and Hashim    Siyu   Siyu Bori   SIY_3
+## 8         9 SSSpot Check 4 42068            Hashim    Siyu   Siyu Bori   SIY_4
+## 9        10          SSPOC 42068  Hashim and group  Uvondo  Shindambwe   UVO_1
+## 10       11     SSSiyu B/2 42068  Judith and group    Siyu        Siyu   SIY_5
+##    Plot_No          Lat          Lon              Forest_Typ Vegetation Stumps
+## 1        4  -2°8'31.06"  40°58'9.52"            R. mucronata         70      2
+## 2        0 -2°12'20.74" 40°59'45.35"            R. mucronata         34      1
+## 3        9  -2°10'1.81" 40°57'54.76" R. mucronata, A. marina         15      1
+## 4        3  -2°8'34.87" 40°57'49.32" R. mucronata, A. marina         55      0
+## 5        0   -2°5'9.02"  41°3'17.57"                C. tagal         70      0
+## 6        0  -2°4'40.01"  41°2'59.46"            R. mucronata         60      0
+## 7        0  -2°5'27.10"  41°1'12.36"            R. mucronata         79      4
+## 8        0  -2°5'34.51"  41°1'18.62"               A. marina         25      0
+## 9        0  -2°2'33.50"   41°8'1.86" R. mucronata, A. marina         70      7
+## 10       0  -2°4'54.05"   41°3'2.12"            R. mucronata         80      0
+##    Inudation_        Status Block_Names Lat_degrees Lat_minutes Lat_seconds
+## 1           1 P_transect_ii     Pethali          -2           8       31.06
+## 2           1  P_Spot_check     Pethali          -2          12       20.74
+## 3           1  P_transect_i     Pethali          -2          10        1.81
+## 4           1 P_transect_ii     Pethali          -2           8       34.87
+## 5           3  S_spot_check        Siyu          -2           5        9.02
+## 6           1 S_transect_ii        Siyu          -2           4       40.01
+## 7           1  S_transect_i        Siyu          -2           5       27.10
+## 8           3  S_spot_check        Siyu          -2           5       34.51
+## 9           1 U_transect_ii      Uvondo          -2           2       33.50
+## 10          1 S_transect_ii        Siyu          -2           4       54.05
+##    Long_degrees Long_minutes Long_seconds                   geometry
+## 1            40           58         9.52 POINT (40.96931 -1.858039)
+## 2            40           59        45.35 POINT (40.99593 -1.794239)
+## 3            40           57        54.76 POINT (40.96521 -1.832831)
+## 4            40           57        49.32  POINT (40.9637 -1.856981)
+## 5            41            3        17.57 POINT (41.05488 -1.914161)
+## 6            41            2        59.46 POINT (41.04985 -1.922219)
+## 7            41            1        12.36  POINT (41.0201 -1.909139)
+## 8            41            1        18.62 POINT (41.02184 -1.907081)
+## 9            41            8         1.86 POINT (41.13385 -1.957361)
+## 10           41            3         2.12 POINT (41.05059 -1.918319)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#shapefile\_path \textless{}{-} "C:/Users/Cordio ea/Documents/Jane Daisy\_Challenge/output\_shapefile.shp"}
+\NormalTok{shapefile\_path }\OtherTok{\textless{}{-}}\StringTok{"./Jane Daisy\_Challenge/output\_shapefile.shp"}
+\FunctionTok{st\_write}\NormalTok{(sf\_data, shapefile\_path, }\AttributeTok{delete\_layer =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in abbreviate_shapefile_names(obj): Field names abbreviated for ESRI
+## Shapefile driver
+\end{verbatim}
+
+\begin{verbatim}
+## Deleting layer `output_shapefile' using driver `ESRI Shapefile'
+## Writing layer `output_shapefile' to data source 
+##   `./Jane Daisy_Challenge/output_shapefile.shp' using driver `ESRI Shapefile'
+## Writing 75 features with 22 fields and geometry type Point.
+\end{verbatim}
+
+\section{Steps to Create a Map with
+Categories}\label{steps-to-create-a-map-with-categories}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load the shapefile}
+\CommentTok{\#sf\_map \textless{}{-} st\_read("shapefile\_path")}
+
+\CommentTok{\# Check column names}
+\CommentTok{\#colnames(sf\_map)}
+
+\CommentTok{\# Create the map and assign it to an object}
+\CommentTok{\#mangrove\_map \textless{}{-} tm\_shape(sf\_map) + }
+ \CommentTok{\# tm\_dots(col = "Vegettn", palette = "brewer.set1", title = "Vegetation Type") + }
+ \CommentTok{\# tm\_basemap("OpenStreetMap") + }
+  \CommentTok{\#tm\_layout(legend.outside = TRUE)}
+
+\CommentTok{\# Save the map as an image}
+\CommentTok{\#tmap\_save(mangrove\_map, filename = "C:/Users/Cordio ea/Documents/Jane Daisy\_Challenge/mangrove\_map.png")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load the mangrove points (output\_shapefile)}
+\CommentTok{\#sf\_mangrove \textless{}{-} st\_read("C:/Users/Cordio ea/Documents/Jane Daisy\_Challenge/output\_shapefile.shp")}
+\NormalTok{sf\_mangrove }\OtherTok{\textless{}{-}}\FunctionTok{st\_read}\NormalTok{(}\StringTok{"./Jane Daisy\_Challenge/output\_shapefile.shp"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Reading layer `output_shapefile' from data source 
+##   `C:\Users\Cordio ea\Documents\Jane_Repository\Attachment\Jane Daisy_Challenge\output_shapefile.shp' 
+##   using driver `ESRI Shapefile'
+## Simple feature collection with 75 features and 22 fields
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: 40.9637 ymin: -1.995569 xmax: 41.49423 ymax: -0.007111111
+## Geodetic CRS:  WGS 84
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load Lamu County shapefile}
+\CommentTok{\#lamu\_boundary \textless{}{-} st\_read("C:/Users/Cordio ea/Documents/Jane Daisy\_Challenge/Lamu\_County.shp")}
+\NormalTok{lamu\_boundary }\OtherTok{\textless{}{-}} \FunctionTok{st\_read}\NormalTok{(}\StringTok{"./Jane Daisy\_Challenge/Lamu\_County.shp"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Reading layer `Lamu_County' from data source 
+##   `C:\Users\Cordio ea\Documents\Jane_Repository\Attachment\Jane Daisy_Challenge\Lamu_County.shp' 
+##   using driver `ESRI Shapefile'
+## Simple feature collection with 1 feature and 12 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 40.21271 ymin: -2.546249 xmax: 41.56236 ymax: -1.658023
+## Geodetic CRS:  WGS 84
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Ensure both layers have the same CRS}
+\NormalTok{sf\_mangrove }\OtherTok{\textless{}{-}} \FunctionTok{st\_transform}\NormalTok{(sf\_mangrove, }\AttributeTok{crs =} \DecValTok{4326}\NormalTok{)}
+\NormalTok{lamu\_boundary }\OtherTok{\textless{}{-}} \FunctionTok{st\_transform}\NormalTok{(lamu\_boundary, }\AttributeTok{crs =} \DecValTok{4326}\NormalTok{)}
+
+\CommentTok{\# Check column names to confirm "Forest\_Typ"}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(sf\_mangrove))  }\CommentTok{\# Ensure "Forest\_Typ" exists}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "OBJECTI"  "ID"       "Date"     "Obsrvrs"  "Block"    "Site"    
+##  [7] "Site_ID"  "Plot_No"  "Lat"      "Lon"      "Frst_Ty"  "Vegettn" 
+## [13] "Stumps"   "Inudtn_"  "Status"   "Blck_Nm"  "Lt_dgrs"  "Lt_mnts" 
+## [19] "Lt_scnd"  "Lng_dgr"  "Lng_mnt"  "Lng_scn"  "geometry"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create the overlay map}
+\NormalTok{lamu\_map }\OtherTok{\textless{}{-}} \FunctionTok{tm\_shape}\NormalTok{(lamu\_boundary) }\SpecialCharTok{+} 
+  \FunctionTok{tm\_borders}\NormalTok{(}\AttributeTok{lwd =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \StringTok{"black"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Lamu County Boundary"}\NormalTok{) }\SpecialCharTok{+}  \CommentTok{\# Lamu County Outline}
+  \FunctionTok{tm\_text}\NormalTok{(}\StringTok{"Lamu "}\NormalTok{, }\AttributeTok{size =} \FloatTok{1.0}\NormalTok{, }\AttributeTok{col =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fontface =} \StringTok{"bold"}\NormalTok{, }\AttributeTok{xmod =} \SpecialCharTok{{-}}\FloatTok{0.15}\NormalTok{, }\AttributeTok{ymod =} \SpecialCharTok{{-}}\FloatTok{0.05}\NormalTok{) }\SpecialCharTok{+}        \CommentTok{\# Label the County Name}
+  
+  \FunctionTok{tm\_shape}\NormalTok{(sf\_mangrove) }\SpecialCharTok{+} 
+  \FunctionTok{tm\_dots}\NormalTok{(}\AttributeTok{col =} \StringTok{"Frst\_Ty"}\NormalTok{, }\AttributeTok{palette =} \StringTok{"brewer.set1"}\NormalTok{, }\AttributeTok{size =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{title =} \StringTok{"Forest Type"}\NormalTok{) }\SpecialCharTok{+}  \CommentTok{\# Forest Points}
+\CommentTok{\# Add a compass in the top{-}left corner}
+  \FunctionTok{tm\_compass}\NormalTok{(}\AttributeTok{position =} \FunctionTok{c}\NormalTok{(}\StringTok{"right"}\NormalTok{, }\StringTok{"bottom"}\NormalTok{), }\AttributeTok{type =} \StringTok{"8star"}\NormalTok{, }\AttributeTok{size =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{+}
+  \CommentTok{\# Add a title to the map}
+  \FunctionTok{tm\_layout}\NormalTok{(}\AttributeTok{title =} \StringTok{"Forest Type Distribution in Lamu County"}\NormalTok{, }
+            \AttributeTok{title.size =} \FloatTok{1.1}\NormalTok{,}
+            \AttributeTok{legend.outside =} \ConstantTok{TRUE}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+\end{verbatim}
+
+\begin{verbatim}
+## -- tmap v3 code detected -------------------------------------------------------
+\end{verbatim}
+
+\begin{verbatim}
+## [v3->v4] `tm_borders()`: use 'fill' for the fill color of polygons/symbols
+## (instead of 'col'), and 'col' for the outlines (instead of 'border.col').
+## [v3->v4] `tm_borders()`: migrate the argument(s) related to the legend of the
+## visual variable `fill` namely 'title' to 'fill.legend = tm_legend(<HERE>)'
+## [tm_dots()] Argument `title` unknown.
+## [v3->v4] `tm_layout()`: use `tm_title()` instead of `tm_layout(title = )`
+## This message is displayed once every 8 hours.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{tm\_layout}\NormalTok{(}\AttributeTok{legend.outside =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [nothing to show] no data layers defined
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Show the map}
+\NormalTok{lamu\_map}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Challenge_Code_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Save the map}
+\CommentTok{\#tmap\_save(lamu\_map, filename = "C:/Users/Cordio ea/Documents/Jane Daisy\_Challenge/lamu\_mangrove\_map.png")}
+\FunctionTok{tmap\_save}\NormalTok{(lamu\_map, }\AttributeTok{filename =} \StringTok{"./Jane Daisy\_Challenge/lamu\_mangrove\_map.png"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Map saved to C:\Users\Cordio ea\Documents\Jane_Repository\Attachment\Jane Daisy_Challenge\lamu_mangrove_map.png
+## Resolution: 2437.456 by 1809.263 pixels
+## Size: 8.124853 by 6.030878 inches (300 dpi)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#}
+\CommentTok{\#}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}
