@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 #libraries
-```{r}
+```{r echo=FALSE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 library(dplyr)    # Data manipulation
 library(tidyr)    # Data tidying
 library(stringr)  # String manipulation
@@ -27,7 +27,7 @@ library (tmaptools)#additional tools for maps
 ```
 
 # changing .xlsx to csv 
-```{r}
+```{r echo=FALSE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 # Correct file path
 #excel_file <- "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/Mangrove_sample_data.xlsx"
 
@@ -48,7 +48,7 @@ site_coordinates <- read.csv(data_locale)
 head(site_coordinates, 5)
 ```
 
-```{r}
+```{r echo=FALSE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 
 coordinate_extracted <- site_coordinates %>%
   mutate(
@@ -69,7 +69,7 @@ head(coordinate_extracted, 5)
 
 ```
 
-```{r}
+```{r echo=FALSE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 coordinate_cleaned <- coordinate_extracted %>%
   mutate(
     # Clean Latitude and Longitude Degrees, Minutes, and Seconds
@@ -102,7 +102,7 @@ head(DD_coordinates, 5)
 
 
 
-```{r}
+```{r echo=FALSE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 # Convert to sf object (Spatial Data Frame)
 sf_data <- st_as_sf(DD_coordinates, coords = c("Long_decimal", "Lat_decimal"), crs = 4326)
 
@@ -117,7 +117,7 @@ st_write(sf_data, shapefile_path, delete_layer = TRUE)
 
 ```
 # Steps to Create a Map with Categories
-```{r}
+```{r echo=FALSE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 
 # Load the shapefile
 #sf_map <- st_read("shapefile_path")
@@ -137,7 +137,7 @@ st_write(sf_data, shapefile_path, delete_layer = TRUE)
 
 ```
 
-```{r}
+```{r echo=FALSE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 
 # Load the mangrove points (output_shapefile)
 #sf_mangrove <- st_read("C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/output_shapefile.shp")
