@@ -1,0 +1,76 @@
+"OBJECTID","ID","Date","Observers","Block","Site","Site_ID","Plot_No","Lat","Lon","Forest_Typ","Vegetation","Stumps","Inudation_","Status","Block_Names","Lat_degrees","Lat_minutes","Lat_seconds","Long_degrees","Long_minutes","Long_seconds","Lat_decimal","Long_decimal"
+1,"X",42067,"Hashim","Pethali","Shinda kasi","PET_1",4,"-2°8'31.06""","40°58'9.52""","R. mucronata",70,2,1,"P_transect_ii","Pethali",-2,8,31.06,40,58,9.52,-1.85803888888889,40.9693111111111
+2,"PCPO 8",42067,"Hashim","Pethali","Chongoni","PET_2",0,"-2°12'20.74""","40°59'45.35""","R. mucronata",34,1,1,"P_Spot_check","Pethali",-2,12,20.74,40,59,45.35,-1.79423888888889,40.9959305555556
+4,"PC9",42067,"Judith and group","Pethali","Chongoni","PET_4",9,"-2°10'1.81""","40°57'54.76""","R. mucronata, A. marina",15,1,1,"P_transect_i","Pethali",-2,10,1.81,40,57,54.76,-1.83283055555556,40.9652111111111
+5,"PC3",42067,"Judith and group","Pethali","Chongoni","PET_5",3,"-2°8'34.87""","40°57'49.32""","R. mucronata, A. marina",55,0,1,"P_transect_ii","Pethali",-2,8,34.87,40,57,49.32,-1.85698055555556,40.9637
+6,"SSSiyu A",42068,"Hashim, Judith","Siyu","Siyu Jetty","SIY_1",0,"-2°5'9.02""","41°3'17.57""","C. tagal",70,0,3,"S_spot_check","Siyu",-2,5,9.02,41,3,17.57,-1.91416111111111,41.0548805555556
+7,"SSSiyu C",42068,"Judith","Siyu","Siyu","SIY_2",0,"-2°4'40.01""","41°2'59.46""","R. mucronata",60,0,1,"S_transect_ii","Siyu",-2,4,40.01,41,2,59.46,-1.92221944444444,41.04985
+8,"SSSpot Check 1",42068,"Judith and Hashim","Siyu","Siyu Bori","SIY_3",0,"-2°5'27.10""","41°1'12.36""","R. mucronata",79,4,1,"S_transect_i","Siyu",-2,5,27.1,41,1,12.36,-1.90913888888889,41.0201
+9,"SSSpot Check 4",42068,"Hashim","Siyu","Siyu Bori","SIY_4",0,"-2°5'34.51""","41°1'18.62""","A. marina",25,0,3,"S_spot_check","Siyu",-2,5,34.51,41,1,18.62,-1.90708055555556,41.0218388888889
+10,"SSPOC",42068,"Hashim and group","Uvondo","Shindambwe","UVO_1",0,"-2°2'33.50""","41°8'1.86""","R. mucronata, A. marina",70,7,1,"U_transect_ii","Uvondo",-2,2,33.5,41,8,1.86,-1.95736111111111,41.13385
+11,"SSSiyu B/2",42068,"Judith and group","Siyu","Siyu","SIY_5",0,"-2°4'54.05""","41°3'2.12""","R. mucronata",80,0,1,"S_transect_ii","Siyu",-2,4,54.05,41,3,2.12,-1.91831944444444,41.0505888888889
+12,"SSSpot check 2",42068,"Judith,James and group","Siyu","Siyu bori","SIY_6",0,"-2°5'28.68""","41°1'8.83""","C. tagal",85,0,3,"S_transect_i","Siyu",-2,5,28.68,41,1,8.83,-1.9087,41.0191194444444
+13,"SSS*",42068,"Judith and group","Uvondo","Shindambwe","UVO_2",0,"-2°2'30.84""","41°8'9.96""","R. mucronata",60,2,1,"U_transect_ii","Uvondo",-2,2,30.84,41,8,9.96,-1.9581,41.1361
+14,"SS24",42069,"Hashim","Siyu","Shindamwe","SIY_7",24,"-2°2'53.77""","41°2'53.77""","R. mucronata",10,5,2,"Syu_spot_check","Siyu",-2,2,53.77,41,2,53.77,-1.95173055555556,41.0482694444444
+15,"SF19",42069,"Kennedy","Uvondo","Faza-Ivakani","UVO_3",19,"-2°3'9.00""","41°7'36.30""","R. mucronata, S. Alba",80,3,1,"U_Transect_i","Uvondo",-2,3,9,41,7,36.3,-1.9475,41.12675
+16,"SF23",42069,"Hashim","Uvondo","Faza-Mnyabogi","UVO_4",23,"-2°3'36.76""","41°7'47.60""","C. tagal",80,1,1,"U_Transect_i","Uvondo",-2,3,36.76,41,7,47.6,-1.93978888888889,41.1298888888889
+17,"SF20",42069,"Hashim","Uvondo","Faza-Mbajumwali","UVO_5",20,"-2°3'55.19""","41°7'38.60""","A. marina, C. Tagal",30,9,3,"U_Transect_i","Uvondo",-2,3,55.19,41,7,38.6,-1.93466944444444,41.1273888888889
+18,"SU18",42069,"Judith","Uvondo","Uvondo","UVO_6",18,"-2°0'41.26""","41°8'59.21""","R. mucronata",70,5,2,"U_Spot_checks","Uvondo",-2,0,41.26,41,8,59.21,-1.98853888888889,41.1497805555556
+19,"SWay point 10",42069,"Judith and group","Siyu","Siyu","SIY_8",0,"-2°4'30.22""","41°3'2.93""","S. Alba",65,0,1,"S_transect_ii","Siyu",-2,4,30.22,41,3,2.93,-1.92493888888889,41.0508138888889
+20,"U21",42069,"Judith and group","Uvondo","Uvondo B","UVO_7",21,"-2°1'41.16""","41°9'58.64""","S. Alba",55,0,1,"U_Spot_checks","Uvondo",-2,1,41.16,41,9,58.64,-1.9719,41.1662888888889
+21,"UU26",42069,"Judith ,James and group","Uvondo","Upulu wa papa","UVO_8",26,"-2°1'19.27""","41°11'4.24""","R. mucronata",60,9,1,"U_Spot_checks","Uvondo",-2,1,19.27,41,11,4.24,-1.97798055555556,41.1845111111111
+22,"UU14",42069,"Judith nad group","Uvondo","Uvondo","UVO_9",14,"-2°0'15.95""","41°11'16.51""","C. tagal",75,0,2,"U_Spot_checks","Uvondo",-2,0,15.95,41,11,16.51,-1.99556944444444,41.1879194444444
+23,"RR28",42070,"Hashim","Rewa","Rewa","REW_1",28,"-2°7'47.82""","41°7'41.88""","R. mucronata",80,0,1,"R_transect_i","Rewa",-2,7,47.82,41,7,41.88,-1.87005,41.1283
+24,"RR27",42070,"Hashim","Rewa","Rewa-Mabiu","REW_2",27,"-2°6'24.59""","41°10'10.70""","R. mucronata",30,0,1,"Rewa_spot_check","Rewa",-2,6,24.59,41,10,10.7,-1.89316944444444,41.1696388888889
+25,"RR27",42070,"Hashim","Rewa","Rewa-Mabiu","REW_3",27,"-2°6'23.65""","41°10'8.58""","R. mucronata",85,2,1,"Rewa_spot_check","Rewa",-2,6,23.65,41,10,8.58,-1.89343055555556,41.16905
+26,"RR5b",42070,"Hashim","Rewa","Rewa-Mabiu","REW_4",0,"-2°6'6.70""","41°10'17.40""","R. mucronata",90,0,1,"Rewa_spot_check","Rewa",-2,6,6.7,41,10,17.4,-1.89813888888889,41.1715
+27,"SNNdau 1",42070,"Hashim","Uvondo","Ndau","UVO_9",0,"-2°1'18.08""","41°12'52.02""","S. Alba",65,12,1,"U_Spot_checks","Uvondo",-2,1,18.08,41,12,52.02,-1.97831111111111,41.21445
+28,"SNNdau 2",42070,"Hashim","Uvondo","Ndau","UVO_10",0,"-2°1'2.17""","41°12'23.87""","R. mucronata",90,6,2,"U_transnsect_iii","Uvondo",-2,1,2.17,41,12,23.87,-1.98273055555556,41.2066305555556
+29,"SNNdau 3",42070,"Hashim","Uvondo","Ndau","UVO_11",0,"-2°1'8.44""","41°12'17.75""","R. mucronata",80,2,2,"U_transnsect_iii","Uvondo",-2,1,8.44,41,12,17.75,-1.98098888888889,41.2049305555556
+30,"SUY",42070,"Judith","Uvondo","Uvondo-Ndau","UVO_12",0,"-2°1'5.05""","41°12'22.43""","R. mucronata",60,0,0,"U_transnsect_iii","Uvondo",-2,1,5.05,41,12,22.43,-1.98193055555556,41.2062305555556
+31,"RR1",42070,"Judith and group","Rewa","Rewa","REW_5",1,"-2°7'8.22""","41°8'10.32""","S. Alba",55,0,1,"R_transect_i","Rewa",-2,7,8.22,41,8,10.32,-1.88105,41.1362
+32,"Rm5",42070,"Judith and group","Rewa","mabiyu","REW_6",5,"-2°6'10.22""","41°10'21.04""","R. mucronata, S. Alba",60,2,1,"Rewa_spot_check","Rewa",-2,6,10.22,41,10,21.04,-1.89716111111111,41.1725111111111
+33,"UNX",42070,"Judith and group","Uvondo","Ndau","UVO_13",0,"-2°1'3.86""","41°12'41.94""","R. mucronata",40,13,3,"U_Spot_checks","Uvondo",-2,1,3.86,41,12,41.94,-1.98226111111111,41.21165
+34,"RR2",42070,"Hamisi and group","Rewa","Rewa","REW_7",2,"-2°6'21.96""","41°7'18.59""","R. mucronata, C. tagal",40,1,1,"R_spot_checks","Rewa",-2,6,21.96,41,7,18.59,-1.8939,41.1218305555556
+35,"UNZ",42070,"Judith and group","Uvondo","Ndau","UVO_14",0,"-2°1'11.28""","41°12'13.14""","R. mucronata",75,1,1,"U_transnsect_iii","Uvondo",-2,1,11.28,41,12,13.14,-1.9802,41.20365
+36,"PCP3(entry from village)",42071,"Judith and group","Pethali","Chongoni-tukutu","PET_6",0,"-2°9'27.07""","40°59'53.84""","A. marina",40,3,3,"P_spot_check","Pethali",-2,9,27.07,40,59,53.84,-1.84248055555556,40.9982888888889
+37,"PC2",42071,"Judith and group","Pethali","Chongoni-tukutu","PET_7",2,"-2°9'35.93""","40°58'29.96""","A. marina",65,0,3,"P_transect_i","Pethali",-2,9,35.93,40,58,29.96,-1.84001944444444,40.9749888888889
+38,"PCP1",42071,"Judith,James,Hamisi and group","Pethali","Chongoni-tukutu","PET_8",0,"-2°9'46.15""","40°58'28.63""","R. mucronata, C. tagal",70,1,1,"p_spot_check","Pethali",-2,9,46.15,40,58,28.63,-1.83718055555556,40.9746194444444
+39,"PCP4*",42071,"Judith nad group","Pethali","Chongoni-tukutu","PET_9",0,"-2°9'33.77""","40°58'28.63""","A. marina",75,1,3,"p_spot_check","Pethali",-2,9,33.77,40,58,28.63,-1.84061944444444,40.9746194444444
+40,"PC*",42071,"Judith and group","Pethali","Chongoni-tukutu","PET_10",0,"-2°9'32.11""","40°58'39.94""","A. marina, C. Tagal",80,0,2,"P_transect_i","Pethali",-2,9,32.11,40,58,39.94,-1.84108055555556,40.9777611111111
+41,"MKMK2",42072,"Hashim and group","Mkokoni","Kijembe","MKN_1",0,"-1°56'32.35""","41°16'35.62""","C. tagal",80,0,2,"Mkn_spot_check","Mkokoni",-1,56,32.35,41,16,35.62,-0.0576805555555555,41.2765611111111
+42,"MKMK1",42072,"Hashim and group","Mkokoni","Kijembe","MKN_2",0,"-1°58'23.48""","41°16'45.16""","A. marina",45,0,4,"Mkn_spot_check","Mkokoni",-1,58,23.48,41,16,45.16,-0.0268111111111111,41.2792111111111
+43,"MKMK2",42072,"Hashim and group","Mkokoni","Kijembe","MKN_3",0,"-1°58'23.74""","41°16'41.27""","C. tagal",45,9,3,"Mkn_spot_check","Mkokoni",-1,58,23.74,41,16,41.27,-0.0267388888888889,41.2781305555556
+44,"MUKWY 09",42073,"Hashim","Kiwayu","Uso tavau","KIW_1",0,"-1°59'34.40""","41°15'57.24""","R. mucronata",85,0,2,"Kyu_spotchecks","Kiwayu",-1,59,34.4,41,15,57.24,-0.00711111111111116,41.2659
+45,"MUKWY 09B",42073,"Hashim","Kiwayu","Uso tavau","KIW_2",0,"-1°59'31.45""","41°15'55.01""","S. Alba",40,7,1,"Kyu_spotchecks","Kiwayu",-1,59,31.45,41,15,55.01,-0.00793055555555561,41.2652805555556
+46,"MKKWY 10",42073,"Hashim","Kiwayu","Koko la kachi","KIW_3",0,"-1°59'27.20""","41°16'19.31""","R. mucronata",110,6,2,"Kyu_transect_i","Kiwayu",-1,59,27.2,41,16,19.31,-0.00911111111111116,41.2720305555556
+47,"MKKWY 11",42073,"Hashim","Kiwayu","Koko la kachi","KIW_4",0,"-1°59'17.52""","41°16'22.30""","R. mucronata, S. Alba",50,0,1,"Kyu_transect_i","Kiwayu",-1,59,17.52,41,16,22.3,-0.0118000000000001,41.2728611111111
+48,"MKKWY 05",42073,"Hashim","Kiwayu","Koko la kachi","KIW_5",0,"-1°59'10.25""","41°16'24.71""","R. mucronata",70,0,2,"Kyu_transect_ii","Kiwayu",-1,59,10.25,41,16,24.71,-0.0138194444444445,41.2735305555556
+49,"MKKWY 04",42073,"Hashim","Kiwayu","Koko la kachi","KIW_6",0,"-1°59'5.60""","41°16'26.47""","R. mucronata",80,0,2,"Kyu_transect_ii","Kiwayu",-1,59,5.6,41,16,26.47,-0.0151111111111112,41.2740194444444
+50,"KKKWY3",42073,"James and group","Kiwayu","Kwa kacha","KIW_7",0,"-1°58'59.74""","41°16'29.57""","R. mucronata",65,0,1,"Kyu_transect_ii","Kiwayu",-1,58,59.74,41,16,29.57,-0.0167388888888889,41.2748805555556
+51,"KKX",42073,"James and group","Kiwayu","Kwa kacha","KIW_8",0,"-1°58'59.59""","41°16'39.65""","R. mucronata",65,5,1,"Kyu_transect_iii","Kiwayu",-1,58,59.59,41,16,39.65,-0.0167805555555555,41.2776805555556
+52,"KKAdditional",42073,"James and group","Kiwayu","Kwa kacha","KIW_9",0,"-1°59'3.41""","41°17'3.41""","R. mucronata, C. tagal",45,1,1,"Kyu_spotchecks","Kiwayu",-1,59,3.41,41,17,3.41,-0.0157194444444445,41.2842805555556
+53,"KKKWY6",42073,"Judith and group","Kiwayu","Kwa kacha","KIW_10",0,"-1°58'41.16""","41°16'16.00""","R. mucronata",50,0,1,"Kyu_spotchecks","Kiwayu",-1,58,41.16,41,16,16,-0.0219,41.2711111111111
+54,"KKKWY7",42073,"Juduth and gorup","Kiwayu","Kwa kacha","KIW_11",0,"-1°58'39.04""","41°16'13.37""","R. mucronata",50,0,1,"Kyu_spotchecks","Kiwayu",-1,58,39.04,41,16,13.37,-0.0224888888888889,41.2703805555556
+55,"KNKWY1",42073,"Judith and group","Kiwayu","Ndiani","KIW_12",0,"-1°58'58.69""","41°16'43.54""","C. tagal",45,1,2,"Kyu_transect_iii","Kiwayu",-1,58,58.69,41,16,43.54,-0.0170305555555555,41.2787611111111
+56,"MMMKN 02",42074,"Hashim","Mkokoni","Mvundeni","MKN_4",0,"-1°56'21.34""","41°19'37.96""","R. mucronata",60,2,2,"Mkn_transect_i","Mkokoni",-1,56,21.34,41,19,37.96,-0.0607388888888889,41.3272111111111
+57,"MMMKN03",42074,"Hashim","Mkokoni","Mvundeni","MKN_5",0,"-1°56'20.62""","41°19'47.82""","C. tagal",50,0,3,"Mkn_transect_i","Mkokoni",-1,56,20.62,41,19,47.82,-0.0609388888888889,41.32995
+58,"MMMKN 01",42074,"Hashim","Mkokoni","Mvundeni","MKN_6",0,"-1°55'41.88""","41°20'4.63""","R. mucronata",80,3,2,"Mkn_transect_ii","Mkokoni",-1,55,41.88,41,20,4.63,-0.0717,41.3346194444444
+59,"MMSpot check 01",42074,"Hashim","Mkokoni","Mvundeni","MKN_7",0,"-1°55'44.40""","41°20'12.23""","R. mucronata",60,4,2,"Mkn_transect_ii","Mkokoni",-1,55,44.4,41,20,12.23,-0.071,41.3367305555556
+60,"MMMKN 05",42074,"Hashim","Mkokoni","Mvundeni","MKN_8",0,"-1°54'45.25""","41°21'17.71""","A. marina, C. Tagal",20,0,4,"Mkn_spotcheck","Mkokoni",-1,54,45.25,41,21,17.71,-0.0874305555555555,41.3549194444444
+61,"RRRub 8*",42074,"Judith and group","Rubu","Rubu","RUB_1",0,"-1°53'15.18""","41°22'15.89""","A. marina",35,0,3,"Rub_spotcheck","Rubu",-1,53,15.18,41,22,15.89,-0.11245,41.3710805555556
+62,"RPRubu1",42074,"Judith and group","Rubu","Peponi","RUB_2",0,"-1°53'40.92""","41°21'49.97""","R. mucronata",75,12,2,"Rub_spotcheck","Rubu",-1,53,40.92,41,21,49.97,-0.1053,41.3638805555556
+63,"RPRubu 5*",42074,"Judith and group","Rubu","Peponi","RUB_3",0,"-1°53'21.12""","41°22'3.29""","S. Alba and A. marina",35,1,1,"Rub_spotcheck","Rubu",-1,53,21.12,41,22,3.29,-0.1108,41.3675805555556
+64,"RPRubu6*",42074,"James and group","Rubu","Peponi","RUB_4",0,"-1°53'57.16""","41°22'1.45""","R. mucronata",80,0,1,"Rub_transect_i","Rubu",-1,53,57.16,41,22,1.45,-0.100788888888889,41.3670694444444
+65,"RPRubu 7*",42074,"James and group","Rubu","Peponi","RUB_5",0,"-1°53'56.26""","41°21'58.54""","R. mucronata, C. tagal, B. gymnorhiza",65,0,2,"Rub_transect_i","Rubu",-1,53,56.26,41,21,58.54,-0.101038888888889,41.3662611111111
+66,"MM1",42076,"Hashim","kiunga","Mwambore","KNG_1",1,"-1°48'51.62""","41°25'26.29""","R. mucronata, C. tagal",75,1,2,"Kng_spot_check","Kiunga",-1,48,51.62,41,25,26.29,-0.185661111111111,41.4239694444444
+67,"MM9",42076,"Hashim","kiunga","Mwambore","KNG_2",9,"-1°48'27.40""","41°25'49.01""","R. mucronata",70,0,1,"Kng_spot_check","Kiunga",-1,48,27.4,41,25,49.01,-0.192388888888889,41.4302805555556
+68,"MM4",42076,"Hashim","kiunga","Mwambore","KNG_3",4,"-1°47'30.91""","41°27'51.55""","R. mucronata",60,0,1,"Kng_spot_check","Kiunga",-1,47,30.91,41,27,51.55,-0.208080555555556,41.4643194444444
+69,"MM2",42076,"Hashim","kiunga","Mwambore","KNG_4",2,"-1°48'33.66""","41°26'43.12""","R. mucronata",80,0,1,"Kng_spot_check","Kiunga",-1,48,33.66,41,26,43.12,-0.19065,41.4453111111111
+70,"MM5",42076,"Hashim","kiunga","Mwambore","KNG_5",5,"-1°47'44.77""","41°28'5.56""","R. mucronata",80,0,2,"Kng_spot_check","Kiunga",-1,47,44.77,41,28,5.56,-0.204230555555556,41.4682111111111
+71,"KKKNG8",42076,"James and group","kiunga","Ntuni","KNG_6",0,"-1°45'51.01""","41°29'34.69""","S. Alba",70,1,1,"Kng_transect_ii","Kiunga",-1,45,51.01,41,29,34.69,-0.235830555555556,41.4929694444444
+72,"KNG8I",42076,"James and group","kiunga","Ntuni","KNG_7",0,"-1°45'52.06""","41°29'39.23""","R. mucronata",70,0,2,"Kng_transect_ii","Kiunga",-1,45,52.06,41,29,39.23,-0.235538888888889,41.4942305555556
+73,"KNG3",42076,"James and group","kiunga","Kivukoni","KNG_8",0,"-1°47'4.42""","41°27'25.06""","R. mucronata",70,2,0,"Kng_spot_check","Kiunga",-1,47,4.42,41,27,25.06,-0.215438888888889,41.4569611111111
+74,"RUBU-T-1",42076,"James and group","Rubu","Mwambore","RUB_6",0,"-1°49'48.97""","41°25'48.97""","A. marina",30,0,3,"Kng_transect_i","Kiunga",-1,49,48.97,41,25,48.97,-0.169730555555556,41.4302694444444
+75,"KNG7",42076,"James and group","kiunga","Mayaye kubwa","KNG_9",0,"-1°46'37.78""","41°28'23.27""","R. mucronata",70,2,2,"Kng_spot_check","Kiunga",-1,46,37.78,41,28,23.27,-0.222838888888889,41.4731305555556
+76,"Rubu-T-2",42076,"James and group","Rubu","Mwambore","RUB_7",0,"-1°49'54.62""","41°25'54.62""","R. mucronata, C. tagal",60,0,2,"Kng_transect_i","Kiunga",-1,49,54.62,41,25,54.62,-0.168161111111111,41.4318388888889
