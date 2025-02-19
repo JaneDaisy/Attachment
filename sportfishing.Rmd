@@ -1,0 +1,891 @@
+---
+title: "Sport Fishing Kenya Marine Fisheries Institute"
+author: 'Nimrod Ishmael'
+date: 'Completion Date `r format(Sys.Date(), "%B %d, %Y")`'
+output:
+  pdf_document:
+    fig_crop: no
+    toc: no
+    toc_depth: '6'
+  html_document:
+    theme: united
+    hightlight: tango
+    fontsize: 24pt
+    code_folding: hide
+    toc: yes
+    toc_depth: 6
+    toc_float: yes
+  word_document:
+    toc: no
+    toc_depth: '6'
+always_allow_html: yes
+editor_options:
+  chunk_output_type: inline
+---
+## Introduction 
+
+The Project is aimed answering the following research questions and objectives 
+
+**Objectives**
+
+ - To determine annual landings, catch trends per year/ location/fish type from KASA catch records from 1991 to 2015.
+ - To determine the nominal Catch per Unit Effort of the sailfish along the Kenyan coast from the sport fishing data. 
+ - To determine the temporal variability of sailfish catches across various years.
+
+**Research Questions**
+
+ - What are the annual landings for the billfish species over the period obtained from the source data?
+ - What are the catch trends per year/ location/fish type?
+ - What are the trends in the catch per unit effort for the billfish based on the sport fisheries data? 
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+#clear working environment 
+rm(list = ls(all = T))
+
+# set working directory 
+setwd("C:/Users/nishm/Downloads/Jane Daisy_Challenge")
+
+#load packages
+pkgs<-c("tidyverse","janitor","lubridate","viridis","scales","tidyquant","googlesheets4","lemon","MASS","forecast","fpp2","rstatix")
+
+#install missing packages 
+miss_pkgs <- pkgs[!pkgs %in% installed.packages()[,1]]
+
+if(length(miss_pkgs>0)){
+  install.packages(miss_pkgs,dependencies = T) 
+}
+
+#loading the packages
+invisible(lapply(pkgs,library,character.only=T))
+```
+
+## Data Wranging 
+
+This section will cover ;
+
+- Downloading data 
+  + Use the Google Sheet API to download the source data 
+- Data Cleaning Procedure
+  + Exclude none numerical entries on the weight variable
+  + Clean up misplaced fish type 
+  + Exclude all entries with zero weight 
+  + Tag wrong entries for correction *i.e tagged number cannot be greater than number of fish recorded*
+- Manipulation of data
+  + Calculate the average weight of fish 
+  + Calculate the release weight 
+
+```{r read data and clean, message=FALSE, warning=FALSE, include=FALSE}
+#sportfishing <- googlesheets4::range_read('1uVBUfFjcvt9lV8sQ1X8kcHpkTb5yIDDbqU2gbsDFT4o',
+#                                          sheet = 'collective sport fishing catch',
+#                                          range = 'A:H') %>% janitor::clean_names()
+
+sportfishing <- readr::read_csv('D:/Kemfri Projects - Nina/sportfishing/data/sportfishing.csv')
+
+#cleaning data 
+sportfishing_clean <- sportfishing %>% 
+  dplyr::mutate(weight = ifelse(str_detect(weight_in_kgs,'[0-9]'),'yes','no')) %>% 
+  dplyr::filter(weight =='yes') %>% 
+  #convert the formart
+  dplyr::mutate(weight_in_kgs = as.numeric(weight_in_kgs),
+                year = as.numeric(year),
+                number_of_boated_catch = as.numeric(number_of_boated_catch),
+                tagged_fish = as.numeric(tagged_fish),
+                #cleaning the data 
+                fish_type = ifelse(fish_type =='Fish type', 'Giant Trevally',fish_type),
+                wrong_entry = ifelse(tagged_fish > number_of_boated_catch,'yes','no'),
+                tagged_fish = ifelse(tagged_fish > number_of_boated_catch, number_of_boated_catch, tagged_fish),
+                #calculate average weight
+                average_weight = ifelse(number_of_boated_catch == 0 , NA,round(weight_in_kgs/number_of_boated_catch,2)),
+                release_weight = trunc(tagged_fish * average_weight)) %>%  
+  dplyr::select(-weight) %>% 
+  dplyr::filter(weight_in_kgs > 0)
+
+```
+
+\newpage
+
+## Explanatory Data Analysis
+
+This section cover descriptive analysis for the sport fishing source data in different fishing zones along the coast region from **1991** to **2015**.
+
+### Annual Fish Weight Trends
+
+The graph below indicates the annual recorded fish weight in coast region since 1991 to 2015 .
+
+```{r echo=FALSE, fig.align='center', fig.height=6, fig.width=12, message=FALSE, warning=FALSE}
+#write the csv
+#readr::write_csv(sportfishing_clean,"data/sportfishing.csv",na='')
+
+#read data
+#sportfishing_clean <- readr::read_csv('D:/Kemfri Projects - Nina/sportfishing/data/sportfishing.csv')
+
+#summarize the data per year
+per_year <- sportfishing_clean %>% 
+  dplyr::group_by(year) %>% 
+  dplyr::summarise(total_weight = sum(weight_in_kgs, na.rm = T)) %>% 
+  dplyr::mutate(total_weight = total_weight/1000,
+                lag_weight = total_weight - lag(total_weight),
+                lead_weight = (total_weight - lead(total_weight))*-1,
+                change = lead_weight/total_weight,
+                preceding_year = year + 1)
+
+#calculate maximum, minimum median weight 
+max_weight <- max(per_year$total_weight, na.rm = T)
+min_weight <- min(per_year$total_weight, na.rm = T)
+medium_weight <- median(per_year$total_weight, na.rm = T)
+sd_weight <- round(sd(per_year$total_weight, na.rm = T),2)
+
+#filter data for minimum and maximum weight caught 
+max_weight_kgs <- per_year %>% 
+  dplyr::filter(total_weight > 280)
+
+min_weight_kgs <- per_year %>% 
+  dplyr::filter(total_weight < 92)
+
+
+#plot the data 
+per_year %>% 
+  ggplot2::ggplot(aes(year,total_weight))+
+  lemon::geom_pointline()+
+  geom_hline(yintercept = medium_weight,
+             linetype = 'dashed')+
+  geom_text(x = 2013, y = 230, size = 4.5,
+            aes(label = paste("Average Weight: ",round(medium_weight),"kgs")))+
+  geom_text(x = 2013, y = 200, size = 4.5,
+            aes(label = paste("Standard Deviation : ",sd_weight)))+
+  geom_point(data = max_weight_kgs,
+             color= "#008000",
+             size = 3)+
+  geom_point(data = min_weight_kgs,
+             color= "#ff0000",
+             size = 3)+
+  geom_text(data = max_weight_kgs,
+            aes(label = paste(round(total_weight),"kgs")),
+            size= 2.8,
+            color= "#008000",
+            vjust = 1.5,
+            hjust= 1.5)+
+  geom_text(data = min_weight_kgs,
+            aes(label = paste(round(total_weight),"kgs")),
+            size= 2.8,
+            color="#ff0000",
+            vjust = 1.5,
+            hjust= 1.5)+
+  scale_x_continuous(limits = c(1991,2015),breaks = seq(1990,2016,by = 2))+
+  theme_minimal(base_family = 'serif', base_size = 12)+
+  labs(title = 'Annual Fish Weight',
+       subtitle = 'Total Caught Fish Weight per Year',
+       y = 'Weight x 1000 kgs',
+       x = 'Years',
+       caption = "Data Source: Sportfishing data")+
+  theme(plot.title = element_text(hjust = 0.5, face = 'bold', family = 'serif'),
+        plot.subtitle = element_text(hjust = 0.5, family = 'serif', face = 'bold.italic'),
+        axis.title = element_text(hjust = 0.5, vjust = 0.1, family = 'serif',face = 'italic'),
+        axis.text = element_text(face = 'bold', family = 'serif'),
+        plot.caption = element_text(size = 8,color = "#999999",family = "serif",face = 'italic'))
+
+```
+**Summary Statistics**
+
+The was an average weight of **`r round(medium_weight)` kgs** with the highest and minimum weight of **`r round(max_weight)` kgs**, **`r round(min_weight)` kgs** respectively.
+
+**The General Trend**
+
+The graph above displays the total fish caught over the the years. From the graph it is evident that maximum fish weight caught was realized in both year 1992 and 2009 as well as the minimum weight caught was in year 2015.
+The graph illustrates continuous decrease in total fish caught from 2008 to 2015 and a relative fluctuation in weight caught between years 1993 and 2009.
+
+To understand the trend in the fish weight over the years we calculate the lag weight between the years to get the percentage change from one year to the next. The results were displayed in both an histogram and a fitted generalized  model using `loess function`. 
+
+\newpage
+
+**Lag Weight Bar Graph **
+
+The bar graph indicates the change in caught fish weight from one year to the next. 
+
+```{r echo=FALSE, fig.height=7, fig.width=12, message=FALSE, warning=FALSE}
+# maximum weight caught increase 
+weight_below_minus_50 <- per_year %>% 
+  dplyr::filter(change < - 0.5)
+
+weight_above_plus_50 <- per_year %>% 
+  dplyr::filter(change > 0.5)
+
+#plot the data 
+per_year %>% 
+  ggplot2::ggplot(aes(preceding_year,change))+
+  geom_col(width = 0.6)+
+  geom_text(data = weight_above_plus_50,
+            aes(label = scales::percent(change,accuracy = 0.1)),
+            size= 3,
+            color="black",
+            vjust = -0.9,
+            hjust= 0.5)+
+  geom_text(data = weight_below_minus_50,
+            aes(label = scales::percent(change,accuracy = 0.1)),
+            size= 3,
+            color="black",
+            vjust = 1.2,
+            hjust= 0.5)+
+  geom_col(data = weight_below_minus_50,
+           aes(preceding_year,change),
+           cex=0.9,
+           width = 0.6,
+           stat ="identity",
+           fill="#ff0000")+
+   geom_col(data = weight_above_plus_50,
+           aes(preceding_year,change),
+           cex=0.9,
+           width = 0.6,
+           stat ="identity",
+           fill= "#008000")+
+  #lemon::geom_pointline()+
+  geom_hline(yintercept = 0,linetype ="solid")+
+  scale_x_continuous(breaks = seq(1990, 2016, 2))+
+  scale_y_continuous(labels = scales::percent)+
+  theme_minimal(base_family = 'serif', base_size = 12)+
+  labs(title = 'Annual Fish Weight Trend',
+       subtitle = 'Percentage Change in Recorded Fish Weight Over The Years',
+       y = "Change in Fish Weight [in %]",
+       x = "Years",
+       caption = "Data Source: Sportfishing data")+
+  theme(plot.title = element_text(hjust = 0.5, face = 'bold', family = 'serif'),
+        plot.subtitle = element_text(hjust = 0.5, family = 'serif', face = 'bold.italic'),
+        axis.title = element_text(hjust = 0.5, vjust = 0.1, family = 'serif',face = 'italic'),
+        axis.text = element_text(family ='serif', face = 'bold'),
+        plot.caption = element_text(size = 8,color = "#999999",family = "serif",face = 'italic'))
+
+```
+
+From the bar graph above it is evident that there was a spike increase in weight caught between the years, `1991 and 1992`, `2006 and 2007` and `2008 and 2009` with increased percent of `71.2%` , `78.1%` and `77.2%` respectively. There was a stiff decrease in the weight caught between years `2005 and 2006` and `2014 and 2015` with a total percentage of `-62.6 %` and `-78.2%` respectrively.
+
+\newpage
+
+**Caught Fish Weight Trend**
+
+A generalized model was fitted to the data to map out the trend in fish weight over the years.
+
+```{r echo=FALSE, fig.align='center', fig.height=5, fig.width=12, message=FALSE, warning=FALSE}
+#plot the data 
+per_year %>% 
+  ggplot2::ggplot(aes(preceding_year,change))+
+  geom_hline(yintercept = 0,linetype ="dashed")+
+  geom_smooth(method = 'loess',se = F)+
+  scale_x_continuous(breaks = seq(1990, 2016, 2))+
+  scale_y_continuous(labels = scales::percent)+
+  theme_minimal(base_family = 'serif', base_size = 12)+
+  labs(title = 'Annual Fish Weight Trend',
+       subtitle = 'Percentage Change in Recorded Fish Weight Over The Years',
+       y = "Change in Fish Weight [in %]",
+       x = "Years",
+       caption = "Data Source: Sportfishing data")+
+  theme(plot.title = element_text(hjust = 0.5, face = 'bold', family = 'serif'),
+        plot.subtitle = element_text(hjust = 0.5, family = 'serif', face = 'bold.italic'),
+        axis.title = element_text(hjust = 0.5, vjust = 0.1, family = 'serif',face = 'italic'),
+        axis.text = element_text(family ='serif', face = 'bold'),
+        plot.caption = element_text(size = 8,color = "#999999",family = "serif",face = 'italic'))
+
+```
+
+
+The graph above indicates a decrease in weight caught between year 1991 to 1995 and a steady increase from 1995 to 2007 from which there was a continuous sharp decrease in weight. 
+
+\newpage
+
+### Fish Weight Zone Trends
+
+This section focus on the trends of caught fish weight per fishing zone. 
+
+```{r summarizing data, message=FALSE, warning=FALSE, include=FALSE}
+zone_year = sportfishing_clean %>% 
+  dplyr::group_by(zone,year) %>% 
+  summarise(total_weight = sum(weight_in_kgs,na.rm = T)/1000,
+            mean_weight = round(mean(weight_in_kgs, na.rm = T),2)) %>% 
+  dplyr::mutate(lag_weight = total_weight - lag(total_weight),
+                lead_weight = (total_weight - lead(total_weight))*-1,
+                change = lead_weight/total_weight)
+
+#get the lag per fishing zone
+zone_year_table <- zone_year %>% 
+  pivot_wider(id_cols = year, names_from = zone, values_from = lag_weight) %>% 
+  janitor::clean_names()
+
+```
+
+**Total Fish Weight Caught Per Zone**
+
+The bar graph illustrates total weight caught per zone between 1991 and 2015.
+
+```{r echo=FALSE, fig.align='center', fig.height=8, fig.width=12, message=FALSE, warning=FALSE}
+#plot the data 
+zone_year %>% 
+  ggplot2::ggplot(aes(year,total_weight))+
+  lemon::geom_pointline()+
+  facet_wrap(~zone, ncol = 2, scales = 'free')+
+  tidyquant::theme_tq(base_family = 'serif', base_size = 12)+
+  labs(title = 'Annual Fish Weight',
+       y = 'Weight x 1000 kgs',
+       x = 'Years',
+       caption = "Data Source: Sportfishing data")+
+  theme(plot.title = element_text(hjust = 0.5, face = 'bold', family = 'serif'),
+        axis.title = element_text(hjust = 0.5, vjust = 0.1, family = 'serif',face = 'italic'),
+        plot.caption = element_text(size = 8,color = "#999999",family = "serif",face = 'italic'))
+
+```
+
+Shimoni, Mombasa and Lamu fishing zone's show a gradual decrease in weight of fish caught over the years with Kilifi zone having a fluctuation and a gap of unrecorded weight for two years. Where as Watamu zone had a steep decrease in fishing weight from year 2010 to 2015.
+
+To get the trend of fishing weight between the recorded years for all zones we calculate the lag weight and fit a generalized model on the data 
+
+\newpage
+
+**Fish Weight Trend per Zone**
+
+The graph below displays fitted generalized model to map the trends of fishing weight for different zones over the years.
+
+```{r echo=FALSE, fig.align='center', fig.height=8, fig.width=12, message=FALSE, warning=FALSE}
+#plot the data 
+zone_year %>% 
+  ggplot2::ggplot(aes(year,change))+
+  geom_hline(yintercept = 0, linetype = "dashed")+
+  geom_smooth(method = 'loess',se = F)+
+  facet_wrap(~zone, ncol = 2, scales = 'free')+
+  scale_y_continuous(labels = scales::percent)+
+  scale_x_continuous(breaks = seq(1990, 2015, 5))+
+  tidyquant::theme_tq(base_family = 'serif', base_size = 12)+
+  labs(title = 'Annual Zone Fish Weight Trend',
+       y = "Change in Fish Weight [in %]",
+       x = "Years",
+       caption = "Data Source: Sportfishing data")+
+  theme(plot.title = element_text(hjust = 0.5, face = 'bold', family = 'serif'),
+        axis.title = element_text(hjust = 0.5, vjust = 0.1, family = 'serif',face = 'italic'),
+        plot.caption = element_text(size = 8,color = "#999999",family = "serif",face = 'italic'))
+```
+The following are the observation from the trends.
+
+ - Kilifi fishing ground had a decrease in fishing weight between 1991 to 2004 and steady increase henceforth to year 2011. 
+ - Lamu and Kikwayu fishing zones registered a continuous decrease in fishing weight over the years.
+ - Malindi and Ngomeni zones had a decrease in fishing weight between the years 1991 to 1996. The zone also registered a steady increase in fish weight in preceding year's up to year 2006 and a sharp decrease henceforth. 
+  - Mombasa and Mtwapa zones had a steady fishing weight with an increase in caught fish weight in year 2001 to 2007 and a sharp decline henceforth.
+  - Shimoni zone had a continuous decrease in fishing weight over the years.
+  - Watamu fishing zone registered a decrease in caught fish weight between 1991 and 1996. From 1997 the zone posted an increase in weight to year 2007 and a decrease hence forth.
+
+\newpage
+
+### Fish Type Weight per Zone
+
+The graph shows total weight caught per fish type in different fishing zones 
+
+
+```{r echo=FALSE, fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+#preparing the fish type groupings 
+fish_type <- sportfishing_clean %>% 
+  dplyr::group_by(zone,fish_type,year) %>% 
+  dplyr::summarise(total_weight = sum(weight_in_kgs, na.rm = T)/1000) %>% 
+  dplyr::mutate(lag_weight = round(total_weight - lag(total_weight),2),
+                lead_weight = round(total_weight - lead(total_weight),2)*-1,
+                change = ifelse(lead_weight == 0, NA, lead_weight/total_weight))
+
+fish_type %>% 
+  dplyr::mutate(fish_type = str_to_title(str_trim(fish_type))) %>% 
+  ggplot(aes(fish_type, total_weight,fill = fish_type))+
+  geom_col(position = 'dodge')+
+  scale_fill_viridis_d()+
+  coord_flip()+
+  facet_wrap(~zone, ncol = 2, scales = "free")+
+  theme_minimal(base_family = 'serif',base_size = 12)+
+  labs(title = "Annual Zone Fish Type Weight",
+       y = "Weight [x 1000 kgs]",
+       x = "Fish Type",
+       caption = "Data Source: Sportfishing data")+
+  theme(plot.title = element_text(hjust = 0.5,family = 'serif', face = 'bold'),
+        axis.title =  element_text(hjust = 0.5 , vjust = 0.5, family = 'serif', face = 'italic'),
+        axis.title.y = element_blank(),
+        axis.text = element_text(size = 12, family = 'serif'), 
+        legend.position = '',
+        legend.title = element_blank(),
+        legend.text = element_text(face = 'bold.italic',size = 8,color = 'grey30'),
+        legend.background =  element_rect(color = 'grey'),
+        plot.caption = element_text(size = 8,color = "#999999",family = "serif",face = 'italic'))
+
+
+```
+
+The graph above shows different fish types in several fishing grounds. From the graph its evident that;
+
+ - Yellowfin Tuna and sailfish were the predominant caught fish in kilifi zone.
+ - Yellowfin Tuna, Wahoo and sailfish  were the most caught fish in Lamu, kikwayu zone.
+ - In Ngomeni, Malindi zone sailfish was the common species caught in the region.
+ - Sailfish, Yellow Tuna and Dorado were the predominat fish types caught in Mtwapa, Mombasa zone. 
+ - Striped Marlin and sailfish were the common fish caught in Shimoni fishing zone and
+ - In watamu zone sailfish was the most common caught fish in the area.
+
+\newpage
+
+**Fish Type Trends**
+
+To better understand the trends of weight per fish type we fit a generalized model to map the trends effectively this is displayed in the graph attached below. 
+
+```{r echo=FALSE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+fish_type %>% 
+  ggplot(aes(year, change))+
+  geom_hline(yintercept = 0, linetype = "dashed")+
+  geom_smooth(method = 'loess', se =F)+
+  facet_wrap(~fish_type, ncol = 3, scales = "free")+
+  scale_y_continuous(labels = scales::percent)+
+  scale_x_continuous(breaks = seq(1990, 2015, 5))+
+  tidyquant::theme_tq(base_family = 'serif',base_size = 12)+
+  labs(title = "Annual Fish Type Weight Trend",
+       y = "Change in Fish Weight [in % ]",
+       x = "Years",
+       caption = "Data Source: Sportfishing Data ")+
+  theme(plot.title = element_text(hjust = 0.5,family = 'serif', face = 'bold'),
+        axis.title =  element_text(hjust = 0.5 , vjust = 0.5, family = 'serif', face = 'italic'),
+        axis.text.x = element_text(size = 9), 
+        legend.position = '',
+        legend.title = element_blank(),
+        legend.text = element_text(face = 'bold.italic',size = 8,color = 'grey30'),
+        legend.background =  element_rect(color = 'grey'),
+        plot.caption = element_text(size = 8,color = "#999999",family = "serif",face = 'italic'))
+```
+
+
+\newpage
+
+###  Sail Fish Descriptives
+
+This section will cover variability  in caught **Sailfish** weight between the year 1991 to 2015.
+
+```{r echo=FALSE, fig.align='center', fig.height=6, fig.width=12, message=FALSE, warning=FALSE}
+#filter the sail fish data 
+sail_fish_per_year <- sportfishing_clean %>% 
+  dplyr::filter(fish_type == "Sailfish") %>% 
+  dplyr::group_by(year) %>% 
+  dplyr::summarise(total_weight = sum(weight_in_kgs, na.rm = T)/1000) %>% 
+  dplyr::mutate(lag_weight = round(total_weight - lag(total_weight),2),
+                lead_weight = round(total_weight - lead(total_weight),2)*-1,
+                change = ifelse(lead_weight == 0, NA, lead_weight/total_weight),
+                delta = scales::rescale(abs(change), to = c(0,1)),
+                normalized_change = ifelse(change >= 0 ,delta, delta*-1),
+                preceding_year = year + 1)
+
+#calculate the summary statistics for sail fish 
+sailfish_max <- max(sail_fish_per_year$total_weight, na.rm = T)
+sailfish_min <- min(sail_fish_per_year$total_weight, na.rm = T)
+sailfish_median <- median(sail_fish_per_year$total_weight, na.rm = T)
+sailfish_sd <- round(sd(sail_fish_per_year$total_weight, na.rm = T),2)
+
+#filter data for minimum and maximum weight caught 
+sailfish_max_weight_kgs <- sail_fish_per_year %>% 
+  dplyr::filter(total_weight >= 124)
+
+sailfish_min_weight_kgs <- sail_fish_per_year %>% 
+  dplyr::filter(total_weight < 19)
+
+
+#plotting the sail fish trends
+sail_fish_per_year %>% 
+  ggplot(aes(year, total_weight))+
+  lemon::geom_pointline()+
+  geom_hline(yintercept = sailfish_median, linetype ="dashed")+
+  geom_text(x = 2014, y = 80, size = 3.5,
+            aes(label = paste("Average Weight: ",round(sailfish_median),"kgs")))+
+  geom_text(x = 2014, y = 65, size = 3.5,
+            aes(label = paste("Standard Deviation: ", sailfish_sd)))+
+  geom_point(data = sailfish_max_weight_kgs,
+             color= "#008000",
+             size = 3)+
+  geom_point(data = sailfish_min_weight_kgs,
+             color= "#ff0000",
+             size = 3)+
+  geom_text(data = sailfish_max_weight_kgs,
+            aes(label = paste(round(total_weight),"kgs")),
+            size= 3,
+            color= "#008000",
+            vjust = 1.5,
+            hjust= 1.5)+
+  geom_text(data = sailfish_min_weight_kgs,
+            aes(label = paste(round(total_weight),"kgs")),
+            size= 3,
+            color="#ff0000",
+            vjust = 1.5,
+            hjust= 1.5)+
+  #scale_y_continuous(labels = scales::percent)+
+  scale_x_continuous(breaks = seq(1990, 2016, 2))+
+  theme_minimal(base_family = 'serif',base_size = 12)+
+  labs(title = "Annual Sailfish Weight",
+       subtitle = "Total Caught Fish Weight per Year",
+       y = "Lag Weight x 1000 kgs",
+       x = "Fish Type",
+       caption = "Data Source: Sportfishing Data")+
+  theme(plot.title = element_text(hjust = 0.5,family = 'serif', face = 'bold'),
+        plot.subtitle = element_text(hjust = 0.5 , family = "serif", face = "bold.italic"),
+        axis.title =  element_text(hjust = 0.5 , vjust = 0.5, family = 'serif', face = 'italic'),
+        axis.title.x = element_blank(),
+        axis.text.x = element_text(size = 9), 
+        legend.position = '',
+        legend.title = element_blank(),
+        legend.text = element_text(face = 'bold.italic',size = 8,color = 'grey30'),
+        legend.background =  element_rect(color = 'grey'),
+        plot.caption = element_text(size = 8,color = "#999999",family = "serif",face = 'italic'))
+```
+
+**Sail Fish Summary Statistics**
+
+The average recorded weight for sailfish was **`r round(sailfish_median)` kgs** with the highest and minimum weight of **`r round(sailfish_max)` kgs** and **`r round(sailfish_min)` kgs** respectively.
+
+\newpage
+
+#### Sail Fish Trends
+
+To better understand the trends in weight of the sailfish we fit a generalized model using the `loess function` to map the trends.
+
+**General Sailfish Weight Trend**
+
+This section concentrates on mapping out the overall trend of sailfish weight over the years.
+ 
+*Please Note: Year 1991 has been excluded in the plot because it an outlier which skews the analysis*
+
+```{r echo=FALSE, message=FALSE, warning=FALSE,fig.align='center',fig.height=5,fig.width=12}
+#plotting the sail fish trends
+sail_fish_per_year %>% 
+  #remove outliers 
+  dplyr::filter(year !=1991) %>% 
+  ggplot(aes(preceding_year, change))+
+  #geom_col()+
+  geom_smooth(method = 'loess',se = F)+
+  geom_hline(yintercept = 0, linetype ="dashed")+
+  scale_y_continuous(labels = scales::percent)+
+  scale_x_continuous(breaks = seq(1990, 2016, 2))+
+  theme_minimal(base_family = 'serif',base_size = 12)+
+  labs(title = "Annual Sailfish Weight Trend",
+       y = "Change in Fish Weight [in % ]",
+       x = "Years",
+       caption = "Data Source: Sportfishing Data")+
+  theme(plot.title = element_text(hjust = 0.5,family = 'serif', face = 'bold'),
+        axis.title =  element_text(hjust = 0.5 , vjust = 0.5, family = 'serif', face = 'italic'),
+        axis.text.x = element_text(size = 9), 
+        legend.position = '',
+        legend.title = element_blank(),
+        legend.text = element_text(face = 'bold.italic',size = 8,color = 'grey30'),
+        legend.background =  element_rect(color = 'grey'),
+        plot.caption = element_text(size = 8,color = "#999999",family = "serif",face = 'italic'))
+```
+
+The graph above shows trends in weight of sailfish from 1992 to 2015. The graph indicates an upward trend in caught weight of fish from 1992 to 2007 from which their is an alarming steep decrease in the weight.
+
+\newpage
+
+**Sailfish Weight Trend per Zone**
+
+To better understand the variability of sail fish we map its trend in different fishing regions, which are illustrated by the graphs below.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE,fig.align='center', fig.width=12,fig.height=8}
+#sumarrise the sailfish data per year per zone
+sailfish_zone_year = sportfishing_clean %>% 
+  dplyr::filter(fish_type == 'Sailfish') %>% 
+  dplyr::group_by(zone,year) %>% 
+  summarise(total_weight = sum(weight_in_kgs,na.rm = T)/1000) %>% 
+  dplyr::mutate(lag_weight = total_weight - lag(total_weight),
+                lead_weight = (total_weight - lead(total_weight))*-1,
+                change = lead_weight/total_weight,
+                abs_change = abs(change),
+                preceding_year = year + 1,
+                normalized_change = ifelse(change >= 0,
+                                          scales::rescale(abs_change, to = c(0,1)),
+                                          scales::rescale(abs_change, to = c(0,1))*-1))
+
+#plotting the sail fish trends
+sailfish_zone_year %>% 
+  #remove outliers 
+  #dplyr::filter(year !=1991) %>% 
+  ggplot(aes(year, normalized_change))+
+  #geom_col()+
+  geom_smooth(method = 'loess',se = F)+
+  geom_hline(yintercept = 0, linetype ="dashed")+
+  scale_y_continuous(labels = scales::percent)+
+  scale_x_continuous(breaks = seq(1990, 2016, 5))+
+  facet_wrap(~zone, ncol = 3, scales = "free")+
+  tidyquant::theme_tq(base_family = 'serif',base_size = 12)+
+  labs(title = "Sailfish Weight Variability",
+       y = "Change in Fish Weight [in % ]",
+       x = "Years",
+       caption = "Data Source: Sportfishing Data")+
+  theme(plot.title = element_text(hjust = 0.5,family = 'serif', face = 'bold'),
+        axis.title =  element_text(hjust = 0.5 , vjust = 0.5, family = 'serif', face = 'italic'),
+        axis.text.x = element_text(size = 9), 
+        legend.position = '',
+        legend.title = element_blank(),
+        legend.text = element_text(face = 'bold.italic',size = 8,color = 'grey30'),
+        legend.background =  element_rect(color = 'grey'),
+        plot.caption = element_text(size = 8,color = "#999999",family = "serif",face = 'italic'))
+```
+
+The graph above shows different trends in the sailfish weight recorded over the years;
+
+ - **Kilifi Region**
+    + A sharp decrease in sailfish weight was recorded between year 1991 to 1996 from which the weight tremendously increses up to 2005, henceforth a steep decline in weight recorded in preceding years.
+  - **Lamu Kikwayu Region**
+    + A tremendous increade in sailfish weight was recorded between 1991 to around 1999 from which the weigh steeply decreased in preceding years
+  - **Malindi Ngomeni Region**
+    + A sharp decrease in recorded weight sailfish was recorded between the year 1991 to around 1996 from which the weight increased steadly to yeat 2007 and a decrease hence forth.
+  - **Mombasa Mtwapa Region**
+    + A steady decrease in sailfish recorded weight was realized between year 1991 to 2001 from which a steep increase in weight was recorded up to year 2007 hence a sharp decline over the next couple of years.
+    
+\newpage
+
+  - **Shimoni Region**
+    + A fluctuating weight of sailfish was recorded between 1991 to 2002 from which the weight tremendously decreased
+  - **Watamu Region**
+    + An increase in sailfish weight was recorded from 1991 to 2003 in Watamu region from which the weigh steeply decreased over the next preceding years 
+    
+\newpage
+      
+## Inferentials Analysis
+
+### Time Series
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+#compile time series data
+time_series_data <- sportfishing_clean %>% 
+  dplyr::group_by(year) %>% 
+  dplyr::summarise(total_weight = sum(weight_in_kgs, na.rm = T))
+#form a time series object 
+
+ts_object <- ts(time_series_data[,2], start = 1991, end = 2015, frequency = 12)
+ts_object_window <- window(ts_object, start = 1991, end = 2015, frequency = 12)
+```
+
+
+
+**Visualize Time-series**
+
+visualization helps discover underlying time series behavior/ trends as well as detecting anomalies. To map the time series trends we plot the data by use of ggplot2 function, `autoplot()`
+
+```{r echo=FALSE, fig.align='center', fig.height=4, fig.width=12, message=FALSE, warning=FALSE}
+#set the theme 
+theme_set(theme_bw(base_family = 'serif',
+                   base_size = 12))
+#plot the time series object
+autoplot(ts_object,facets = F)+
+  labs(title = 'Fish Weight Distribution  (1991 ~2015)',
+       x = 'Year',
+       y= 'Fish Weight',
+       caption = 'Data Source: Sportfishing Data')+
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.caption = element_text(size = 8,color = "grey",family = "serif",face = 'italic'))
+```
+The graph above does not illustrate any trend in fish weight in other words it is cyclic. To zero in and determine if they could be any trend we calculate lag. 
+
+**Lag Calculation**
+
+lag is the difference of current years fish weight value and the former year. The attached equation better explains lag **$lag_{t} = y_{t+1} - y_{t}$**
+
+```{r echo=FALSE, fig.align='center', fig.height=5, fig.width=10, message=FALSE, warning=FALSE}
+time_series_data <- sportfishing_clean %>% 
+  dplyr::group_by(year) %>% 
+  dplyr::summarise(total_weight = sum(weight_in_kgs, na.rm = T)) %>% 
+  dplyr::mutate(lag_weight =  (total_weight - lag(total_weight)))
+```
+
+
+```{r echo=FALSE, fig.align='center', fig.height=4, fig.width=12, message=FALSE, warning=FALSE}
+#converting to time series object
+lag_ts <- ts(time_series_data[,3], start = 1991, end = 2015,frequency = 12)
+
+#plot the lag calculation 
+autoplot(lag_ts,facets = TRUE)+
+  labs(title = 'Fish Weight lag plot (1991 - 2015)',
+       x = 'Year',
+       y= '',
+       caption = 'Data Source: Sportfishing Data')+
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.caption = element_text(size = 8,color = "grey",family = "serif",face = 'italic'))
+```
+
+The graph above shows cyclic trends in that it does not have a regular trend  of caught fish weight in reference to years 
+
+
+\newpage 
+
+**Decompose Time Series**
+
+We decompose the time series object into trend, seasonal and residual component to further get insights on the trend of caught fish weight.
+
+```{r echo=FALSE, fig.align='center', fig.height= 8, fig.width=12, message=FALSE, warning=FALSE}
+decomposing_ts_object <- decompose(ts_object,type = c("additive"))
+
+
+#plot the time series object
+autoplot(decomposing_ts_object,facets = F)+
+  labs(title = 'Fish Weight Distribution  (1991 ~2015)',
+       x = 'Year',
+       y= '',
+       caption = 'Data Source: Sportfishing Data')+
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.caption = element_text(size = 8,color = "grey",family = "serif",face = 'italic'))
+```
+
+From the decomposed time series object on fish weight it is clear that the trend on fish weigh does not follow any defined pattern hence cyclic in its nature. Therefore, we conclude that fish weight over the years do not have any defined trend as it increases and reduces irregulary.  
+
+
+\newpage
+
+**Forecast**
+
+Forecasting is basically predicting the period past the current time. In this section we will use naive method to predict the trend of fish weight for the next 20 years.
+
+**Fish Weight Forecast**
+
+```{r echo=FALSE, fig.align='center', fig.height=4, fig.width=12, message=FALSE, warning=FALSE}
+fish_weight_forecast <- ts(time_series_data[,2],
+                    start = 1991, 
+                    end = 2015,
+                    frequency = 12)
+
+# Forecasting
+seasonal_naive <- snaive(fish_weight_forecast, h = 20)
+
+autoplot(fish_weight_forecast)+
+  autolayer(seasonal_naive)+
+  labs(title = 'Graphical Fish Weight Forecast',
+       x = 'Year',
+       y= 'Fish Weight',
+       caption = 'Data Source: Sportfishing Data')+
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.caption = element_text(size = 8,color = "grey",family = "serif",face = 'italic'))
+
+```
+The graph above indicates forecast fish weight highlighted in blue. From the graph it is evident that the caught fish weight over the next 20 years will increase and reduce irregularly following a cyclic time series trend.
+
+
+
+### Regression 
+
+Regression is mostly used to explore relationship of  two or more variables. This relationship can be mapped in either linear or non-linear relationship. The most common is the linear/Multiple regression which follows the equation $Y = B{_0} + B{_1}X{_1} + B{_2}X{_2}+ . . . + B{_k}X{_k}$   
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#prepare data for analysis 
+inferential_data <- sportfishing_clean %>% 
+  dplyr::group_by(zone,fish_type, species, year) %>% 
+  dplyr::summarise(total_weight = as.numeric(sum(weight_in_kgs, na.rm = T))) %>% 
+  dplyr::mutate(log_weight = log(total_weight),
+                zone = as.character(zone),
+                fish_type = as.character(fish_type),
+                species = as.character(species)
+                ) %>% 
+  dplyr::filter(total_weight >  0 )
+```
+
+\newpage 
+
+**Distribution of Weight**
+
+Every parametric distribution follows certain assumptions.In our case regression model follows normality assumption and this can be identified though mapping  density plot for the fish weight. 
+
+```{r echo=FALSE, fig.align='center', fig.height=5, fig.width=10, message=FALSE, warning=FALSE}
+#plot data to check on the normality 
+
+inferential_data %>% 
+  ggplot(aes(total_weight))+
+  geom_histogram(aes(y=..density..),binwidth = 0.05,color="white",fill="steelblue")+
+  geom_density(color="#808080",alpha=0.3,fill="#808080")+
+  #geom_density()+
+  #geom_histogram(bins = 80)+
+  theme_minimal(base_family = 'serif',base_size = 12)+
+  labs(title = "Distribution of Fish Weight",
+       x = 'Total Weight [Kgs]',
+       caption = "Data Source: Sportfishing Data")+
+  theme(plot.title = element_text(hjust = 0.5,family = 'serif', face = 'bold'),
+        axis.title =  element_text(hjust = 0.5 , vjust = 0.5, family = 'serif', face = 'italic'),
+        axis.text.x = element_text(size = 9),
+        axis.title.x = element_blank(),
+        legend.text = element_text(face = 'bold.italic',size = 8,color = 'grey30'),
+        legend.background =  element_rect(color = 'grey'),
+        plot.caption = element_text(size = 8,color = "#999999",family = "serif",face = 'italic'))
+
+```
+
+The density plot above indicates that distribution of fish weight is skewed to the left. Which breaks the normality assumption for multiple linear regression assumptions. 
+
+
+\newpage
+
+**Transformed Fish Weight**
+
+In quest to achieve normal distribution of the  response variable *(i.e fish weight)* we calculate the logarithm of fish weight to base 10 *($log{_10}$)* and plot a density graph to check the distribution of the transformed weight. 
+
+```{r echo=FALSE, fig.align='center', fig.height=5, fig.width=10, message=FALSE, warning=FALSE}
+#plot data to check on the normality 
+inferential_data %>% 
+  ggplot(aes(log_weight))+
+  #geom_histogram(aes(y=..density..),binwidth = 0.2,color="white",fill="steelblue")+
+  stat_function(fun=dnorm,color="blue",size =.8,args=list(mean=mean(inferential_data$log_weight), 
+                                  sd=sd(inferential_data$log_weight)))+
+  geom_density(color="#808080",alpha=0.3,fill="#808080")+
+  theme_minimal(base_family = 'serif',base_size = 12)+
+  labs(title = "Distribution of Fish Weight",
+       subtitle = 'Log of fish weight',
+       caption = "Data Source: Sportfishing Data")+
+  theme(plot.title = element_text(hjust = 0.5,family = 'serif', face = 'bold'),
+        plot.subtitle = element_text(hjust = 0.5 , family = "serif", face = "italic"),
+        axis.title =  element_text(hjust = 0.5 , vjust = 0.5, family = 'serif', face = 'italic'),
+        axis.text.x = element_text(size = 9),
+        axis.title.x = element_blank(),
+        legend.text = element_text(face = 'bold.italic',size = 8,color = 'grey30'),
+        legend.background =  element_rect(color = 'grey'),
+        plot.caption = element_text(size = 8,color = "#999999",family = "serif",face = 'italic'))
+
+```
+The above density plot indicates tow density plots. The blue line shows normal distribution whereas the filled grey density plot shows the distribution of transformed fish weight.
+
+
+
+\newpage 
+
+**Normality Test**
+
+From the graph it is unclear if the data follows normal distribution, therefore we carry a statistical normality test which can be done by either;
+
+ + Shapiro test *or*
+ + One-sample Kolmogorov-Smirnov test
+
+*One-sample Kolmogorov-Smirnov test*
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#normality test 
+ks.test(inferential_data$total_weight,'pnorm')
+```
+*Shapiro-Wilk Normality Test*
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#normality test 
+shapiro.test(inferential_data$log_weight)
+```
+
+P value for normality test in **Shapiro Test** and **Kolmogorov-Smirnov Test** is **0.0002222** and  **2.2e-16** respectively, which is less than 0.05 significance level. Therefore, we reject the null hypothesis that the data assumes normal distribution. 
+
+The two test confirm that we cannot run a multiple linear regression on sport fishing data hence switching to non-parametric methods. 
+
+
+**Kruskal-Wallis Test**
+
+Kruskal-Wallis Test is the alternative test for Analysis of Variance (ANOVA) in parametric distribution. *Please note the test is a distribution free in other words is a non-parametric method*  
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#run the test 
+re.kruskal <- inferential_data %>% 
+  kruskal.test(total_weight ~ zone)
+
+#summary test
+re.kruskal
+```
+
+From the output we can see that the chi-squared test statistic is 8124.6 and the corresponding p-value is 2.2e-16. Since this p-value is less than the .05 significance level. We  conclude that indeed there is a statistical significant difference between the reported fish weight in the five fishing zones.
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+pairwise.wilcox.test(inferential_data$total_weight, inferential_data$zone,
+                 p.adjust.method = "BH")
+
+```
