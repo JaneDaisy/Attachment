@@ -1,19 +1,13 @@
 ---
-title: "Challenge_2"
-author: "Daisy"
-date: "2025-02-18"
+title: "R Notebook"
 output:
-  html_document: default
   pdf_document: default
+  html_notebook: default
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+ *Ctrl+Shift+Enter*. 
 
-
-#libraries
-```{r echo= TRUE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+```{r}
 library(dplyr)    # Data manipulation
 library(tidyr)    # Data tidying
 library(stringr)  # String manipulation
@@ -24,10 +18,7 @@ library(bslib)
 library(openxlsx) # for the excel
 library(tmap)
 library (tmaptools)#additional tools for maps
-```
 
-# changing .xlsx to csv 
-```{r echo= TRUE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 # Correct file path
 #excel_file <- "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/Mangrove_sample_data.xlsx"
 
@@ -46,30 +37,24 @@ write.csv(data_excel, data_locale, row.names = FALSE)
 site_coordinates <- read.csv(data_locale)
 # Display the first 5 rows of the data
 head(site_coordinates, 5)
-```
-
-```{r echo=TRUE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 
 coordinate_extracted <- site_coordinates %>%
   mutate(
     # Extract Degrees, Minutes, and Seconds for Latitude
     Lat_degrees = as.numeric(str_extract(Lat, "^\\-?\\d+(?=°)")),  # Extract degrees (allow for negative)
     Lat_minutes = as.numeric(str_extract(Lat, "(?<=°)\\d+(?=')")),  # Extract minutes (after degree symbol)
-   Lat_seconds = as.numeric(str_extract(Lat, "(?<=')\\d+(\\.\\d+)?(?=\")")),  # Extract seconds with decimal (after minutes)
-
-
+    Lat_seconds = as.numeric(str_extract(Lat, "(?<=')\\d+(\\.\\d+)?(?=\")")),  # Extract seconds with decimal (after minutes)
+    
+    
     # Extract Degrees, Minutes, and Seconds for Longitude
     Long_degrees = as.numeric(str_extract(Lon, "^\\-?\\d+(?=°)")),  # Extract degrees (allow for negative)
     Long_minutes = as.numeric(str_extract(Lon, "(?<=°)\\d+(?=')")),  # Extract minutes (after degree symbol)
-       Long_seconds = as.numeric(str_extract(Lon, "(?<=')\\d+(\\.\\d+)?(?=\")"))  # Extract seconds with decimal (after minutes)
+    Long_seconds = as.numeric(str_extract(Lon, "(?<=')\\d+(\\.\\d+)?(?=\")"))  # Extract seconds with decimal (after minutes)
   )
 
 # Check the first few rows of the data after extraction
 head(coordinate_extracted, 5)
 
-```
-
-```{r echo=TRUE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 coordinate_cleaned <- coordinate_extracted %>%
   mutate(
     # Clean Latitude and Longitude Degrees, Minutes, and Seconds
@@ -98,11 +83,7 @@ DD_coordinates <- read.csv(data_locale)
 
 # Display the first 5 rows of the data
 head(DD_coordinates, 5)
-```
 
-
-
-```{r echo=TRUE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 # Convert to sf object (Spatial Data Frame)
 sf_data <- st_as_sf(DD_coordinates, coords = c("Long_decimal", "Lat_decimal"), crs = 4326)
 
@@ -112,32 +93,6 @@ print(sf_data)
 #shapefile_path <- "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/output_shapefile.shp"
 shapefile_path <-"./Jane Daisy_Challenge/output_shapefile.shp"
 st_write(sf_data, shapefile_path, delete_layer = TRUE)
-
-
-
-```
-# Steps to Create a Map with Categories
-```{r echo=TRUE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
-
-# Load the shapefile
-#sf_map <- st_read("shapefile_path")
-
-# Check column names
-#colnames(sf_map)
-
-# Create the map and assign it to an object
-#mangrove_map <- tm_shape(sf_map) + 
- # tm_dots(col = "Vegettn", palette = "brewer.set1", title = "Vegetation Type") + 
- # tm_basemap("OpenStreetMap") + 
-  #tm_layout(legend.outside = TRUE)
-
-# Save the map as an image
-#tmap_save(mangrove_map, filename = "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/mangrove_map.png")
-
-
-```
-
-```{r echo=TRUE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 
 # Load the mangrove points (output_shapefile)
 #sf_mangrove <- st_read("C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/output_shapefile.shp")
@@ -165,14 +120,14 @@ lamu_map <- tm_shape(lamu_boundary) +
   
   tm_shape(sf_mangrove) + 
   tm_dots(col = "Frst_Ty", palette = "brewer.set1", size = 0.5, title = "Forest Type") +  # Forest Points
-# Add a compass in the top-left corner
+  # Add a compass in the top-left corner
   tm_compass(position = c("right", "bottom"), type = "8star", size = 2) +
   # Add a title to the map
   tm_layout(title = "Forest Type Distribution in Lamu County", 
             title.size = 1.1,
             legend.outside = TRUE) 
-  
-  tm_layout(legend.outside = TRUE)
+
+tm_layout(legend.outside = TRUE)
 
 # Show the map
 lamu_map
@@ -181,5 +136,6 @@ lamu_map
 #tmap_save(lamu_map, filename = "C:/Users/Cordio ea/Documents/Jane Daisy_Challenge/lamu_mangrove_map.png")
 tmap_save(lamu_map, filename = "./Jane Daisy_Challenge/lamu_mangrove_map.png")
 #
-#
 ```
+
+

@@ -1,0 +1,600 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Sport Fishing Kenya Marine Fisheries Institute},
+  pdfauthor={Nimrod Ishmael},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Sport Fishing Kenya Marine Fisheries Institute}
+\author{Nimrod Ishmael}
+\date{Completion Date February 20, 2025}
+
+\begin{document}
+\maketitle
+
+\subsection{Introduction}\label{introduction}
+
+The Project is aimed answering the following research questions and
+objectives
+
+\textbf{Objectives}
+
+\begin{itemize}
+\tightlist
+\item
+  To determine annual landings, catch trends per year/ location/fish
+  type from KASA catch records from 1991 to 2015.
+\item
+  To determine the nominal Catch per Unit Effort of the sailfish along
+  the Kenyan coast from the sport fishing data.
+\item
+  To determine the temporal variability of sailfish catches across
+  various years.
+\end{itemize}
+
+\textbf{Research Questions}
+
+\begin{itemize}
+\tightlist
+\item
+  What are the annual landings for the billfish species over the period
+  obtained from the source data?
+\item
+  What are the catch trends per year/ location/fish type?
+\item
+  What are the trends in the catch per unit effort for the billfish
+  based on the sport fisheries data?
+\end{itemize}
+
+\subsection{Data Wranging}\label{data-wranging}
+
+This section will cover ;
+
+\begin{itemize}
+\tightlist
+\item
+  Downloading data
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Use the Google Sheet API to download the source data
+  \end{itemize}
+\item
+  Data Cleaning Procedure
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Exclude none numerical entries on the weight variable
+  \item
+    Clean up misplaced fish type
+  \item
+    Exclude all entries with zero weight
+  \item
+    Tag wrong entries for correction \emph{i.e tagged number cannot be
+    greater than number of fish recorded}
+  \end{itemize}
+\item
+  Manipulation of data
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Calculate the average weight of fish
+  \item
+    Calculate the release weight
+  \end{itemize}
+\end{itemize}
+
+\newpage
+
+\subsection{Explanatory Data Analysis}\label{explanatory-data-analysis}
+
+This section cover descriptive analysis for the sport fishing source
+data in different fishing zones along the coast region from
+\textbf{1991} to \textbf{2015}.
+
+\subsubsection{Annual Fish Weight
+Trends}\label{annual-fish-weight-trends}
+
+The graph below indicates the annual recorded fish weight in coast
+region since 1991 to 2015 .
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-2-1} \end{center}
+
+\textbf{Summary Statistics}
+
+The was an average weight of \textbf{188 kgs} with the highest and
+minimum weight of \textbf{301 kgs}, \textbf{18 kgs} respectively.
+
+\textbf{The General Trend}
+
+The graph above displays the total fish caught over the the years. From
+the graph it is evident that maximum fish weight caught was realized in
+both year 1992 and 2009 as well as the minimum weight caught was in year
+2015. The graph illustrates continuous decrease in total fish caught
+from 2008 to 2015 and a relative fluctuation in weight caught between
+years 1993 and 2009.
+
+To understand the trend in the fish weight over the years we calculate
+the lag weight between the years to get the percentage change from one
+year to the next. The results were displayed in both an histogram and a
+fitted generalized model using \texttt{loess\ function}.
+
+\newpage
+
+\textbf{Lag Weight Bar Graph }
+
+The bar graph indicates the change in caught fish weight from one year
+to the next.
+
+\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+From the bar graph above it is evident that there was a spike increase
+in weight caught between the years, \texttt{1991\ and\ 1992},
+\texttt{2006\ and\ 2007} and \texttt{2008\ and\ 2009} with increased
+percent of \texttt{71.2\%} , \texttt{78.1\%} and \texttt{77.2\%}
+respectively. There was a stiff decrease in the weight caught between
+years \texttt{2005\ and\ 2006} and \texttt{2014\ and\ 2015} with a total
+percentage of \texttt{-62.6\ \%} and \texttt{-78.2\%} respectrively.
+
+\newpage
+
+\textbf{Caught Fish Weight Trend}
+
+A generalized model was fitted to the data to map out the trend in fish
+weight over the years.
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-4-1} \end{center}
+
+The graph above indicates a decrease in weight caught between year 1991
+to 1995 and a steady increase from 1995 to 2007 from which there was a
+continuous sharp decrease in weight.
+
+\newpage
+
+\subsubsection{Fish Weight Zone Trends}\label{fish-weight-zone-trends}
+
+This section focus on the trends of caught fish weight per fishing zone.
+
+\textbf{Total Fish Weight Caught Per Zone}
+
+The bar graph illustrates total weight caught per zone between 1991 and
+2015.
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-5-1} \end{center}
+
+Shimoni, Mombasa and Lamu fishing zone's show a gradual decrease in
+weight of fish caught over the years with Kilifi zone having a
+fluctuation and a gap of unrecorded weight for two years. Where as
+Watamu zone had a steep decrease in fishing weight from year 2010 to
+2015.
+
+To get the trend of fishing weight between the recorded years for all
+zones we calculate the lag weight and fit a generalized model on the
+data
+
+\newpage
+
+\textbf{Fish Weight Trend per Zone}
+
+The graph below displays fitted generalized model to map the trends of
+fishing weight for different zones over the years.
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-6-1} \end{center}
+
+The following are the observation from the trends.
+
+\begin{itemize}
+\tightlist
+\item
+  Kilifi fishing ground had a decrease in fishing weight between 1991 to
+  2004 and steady increase henceforth to year 2011.
+\item
+  Lamu and Kikwayu fishing zones registered a continuous decrease in
+  fishing weight over the years.
+\item
+  Malindi and Ngomeni zones had a decrease in fishing weight between the
+  years 1991 to 1996. The zone also registered a steady increase in fish
+  weight in preceding year's up to year 2006 and a sharp decrease
+  henceforth.
+\item
+  Mombasa and Mtwapa zones had a steady fishing weight with an increase
+  in caught fish weight in year 2001 to 2007 and a sharp decline
+  henceforth.
+\item
+  Shimoni zone had a continuous decrease in fishing weight over the
+  years.
+\item
+  Watamu fishing zone registered a decrease in caught fish weight
+  between 1991 and 1996. From 1997 the zone posted an increase in weight
+  to year 2007 and a decrease hence forth.
+\end{itemize}
+
+\newpage
+
+\subsubsection{Fish Type Weight per
+Zone}\label{fish-type-weight-per-zone}
+
+The graph shows total weight caught per fish type in different fishing
+zones
+
+\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+The graph above shows different fish types in several fishing grounds.
+From the graph its evident that;
+
+\begin{itemize}
+\tightlist
+\item
+  Yellowfin Tuna and sailfish were the predominant caught fish in kilifi
+  zone.
+\item
+  Yellowfin Tuna, Wahoo and sailfish were the most caught fish in Lamu,
+  kikwayu zone.
+\item
+  In Ngomeni, Malindi zone sailfish was the common species caught in the
+  region.
+\item
+  Sailfish, Yellow Tuna and Dorado were the predominat fish types caught
+  in Mtwapa, Mombasa zone.
+\item
+  Striped Marlin and sailfish were the common fish caught in Shimoni
+  fishing zone and
+\item
+  In watamu zone sailfish was the most common caught fish in the area.
+\end{itemize}
+
+\newpage
+
+\textbf{Fish Type Trends}
+
+To better understand the trends of weight per fish type we fit a
+generalized model to map the trends effectively this is displayed in the
+graph attached below.
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-8-1} \end{center}
+
+\newpage
+
+\subsubsection{Sail Fish Descriptives}\label{sail-fish-descriptives}
+
+This section will cover variability in caught \textbf{Sailfish} weight
+between the year 1991 to 2015.
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-9-1} \end{center}
+
+\textbf{Sail Fish Summary Statistics}
+
+The average recorded weight for sailfish was \textbf{58 kgs} with the
+highest and minimum weight of \textbf{186 kgs} and \textbf{4 kgs}
+respectively.
+
+\newpage
+
+\paragraph{Sail Fish Trends}\label{sail-fish-trends}
+
+To better understand the trends in weight of the sailfish we fit a
+generalized model using the \texttt{loess\ function} to map the trends.
+
+\textbf{General Sailfish Weight Trend}
+
+This section concentrates on mapping out the overall trend of sailfish
+weight over the years.
+
+\emph{Please Note: Year 1991 has been excluded in the plot because it an
+outlier which skews the analysis}
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-10-1} \end{center}
+
+The graph above shows trends in weight of sailfish from 1992 to 2015.
+The graph indicates an upward trend in caught weight of fish from 1992
+to 2007 from which their is an alarming steep decrease in the weight.
+
+\newpage
+
+\textbf{Sailfish Weight Trend per Zone}
+
+To better understand the variability of sail fish we map its trend in
+different fishing regions, which are illustrated by the graphs below.
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-11-1} \end{center}
+
+The graph above shows different trends in the sailfish weight recorded
+over the years;
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Kilifi Region}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A sharp decrease in sailfish weight was recorded between year 1991
+    to 1996 from which the weight tremendously increses up to 2005,
+    henceforth a steep decline in weight recorded in preceding years.
+  \end{itemize}
+\item
+  \textbf{Lamu Kikwayu Region}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A tremendous increade in sailfish weight was recorded between 1991
+    to around 1999 from which the weigh steeply decreased in preceding
+    years
+  \end{itemize}
+\item
+  \textbf{Malindi Ngomeni Region}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A sharp decrease in recorded weight sailfish was recorded between
+    the year 1991 to around 1996 from which the weight increased steadly
+    to yeat 2007 and a decrease hence forth.
+  \end{itemize}
+\item
+  \textbf{Mombasa Mtwapa Region}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A steady decrease in sailfish recorded weight was realized between
+    year 1991 to 2001 from which a steep increase in weight was recorded
+    up to year 2007 hence a sharp decline over the next couple of years.
+  \end{itemize}
+\end{itemize}
+
+\newpage
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Shimoni Region}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    A fluctuating weight of sailfish was recorded between 1991 to 2002
+    from which the weight tremendously decreased
+  \end{itemize}
+\item
+  \textbf{Watamu Region}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    An increase in sailfish weight was recorded from 1991 to 2003 in
+    Watamu region from which the weigh steeply decreased over the next
+    preceding years
+  \end{itemize}
+\end{itemize}
+
+\newpage
+
+\subsection{Inferentials Analysis}\label{inferentials-analysis}
+
+\subsubsection{Time Series}\label{time-series}
+
+\textbf{Visualize Time-series}
+
+visualization helps discover underlying time series behavior/ trends as
+well as detecting anomalies. To map the time series trends we plot the
+data by use of ggplot2 function, \texttt{autoplot()}
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-13-1} \end{center}
+
+The graph above does not illustrate any trend in fish weight in other
+words it is cyclic. To zero in and determine if they could be any trend
+we calculate lag.
+
+\textbf{Lag Calculation}
+
+lag is the difference of current years fish weight value and the former
+year. The attached equation better explains lag
+\textbf{\(lag_{t} = y_{t+1} - y_{t}\)}
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-15-1} \end{center}
+
+The graph above shows cyclic trends in that it does not have a regular
+trend of caught fish weight in reference to years
+
+\newpage
+
+\textbf{Decompose Time Series}
+
+We decompose the time series object into trend, seasonal and residual
+component to further get insights on the trend of caught fish weight.
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-16-1} \end{center}
+
+From the decomposed time series object on fish weight it is clear that
+the trend on fish weigh does not follow any defined pattern hence cyclic
+in its nature. Therefore, we conclude that fish weight over the years do
+not have any defined trend as it increases and reduces irregulary.
+
+\newpage
+
+\textbf{Forecast}
+
+Forecasting is basically predicting the period past the current time. In
+this section we will use naive method to predict the trend of fish
+weight for the next 20 years.
+
+\textbf{Fish Weight Forecast}
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-17-1} \end{center}
+
+The graph above indicates forecast fish weight highlighted in blue. From
+the graph it is evident that the caught fish weight over the next 20
+years will increase and reduce irregularly following a cyclic time
+series trend.
+
+\subsubsection{Regression}\label{regression}
+
+Regression is mostly used to explore relationship of two or more
+variables. This relationship can be mapped in either linear or
+non-linear relationship. The most common is the linear/Multiple
+regression which follows the equation
+\(Y = B{_0} + B{_1}X{_1} + B{_2}X{_2}+ . . . + B{_k}X{_k}\)
+
+\newpage
+
+\textbf{Distribution of Weight}
+
+Every parametric distribution follows certain assumptions.In our case
+regression model follows normality assumption and this can be identified
+though mapping density plot for the fish weight.
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-19-1} \end{center}
+
+The density plot above indicates that distribution of fish weight is
+skewed to the left. Which breaks the normality assumption for multiple
+linear regression assumptions.
+
+\newpage
+
+\textbf{Transformed Fish Weight}
+
+In quest to achieve normal distribution of the response variable
+\emph{(i.e fish weight)} we calculate the logarithm of fish weight to
+base 10 \emph{(\(log{_10}\))} and plot a density graph to check the
+distribution of the transformed weight.
+
+\begin{center}\includegraphics{sportfishing_files/figure-latex/unnamed-chunk-20-1} \end{center}
+
+The above density plot indicates tow density plots. The blue line shows
+normal distribution whereas the filled grey density plot shows the
+distribution of transformed fish weight.
+
+\newpage
+
+\textbf{Normality Test}
+
+From the graph it is unclear if the data follows normal distribution,
+therefore we carry a statistical normality test which can be done by
+either;
+
+\begin{itemize}
+\tightlist
+\item
+  Shapiro test \emph{or}
+\item
+  One-sample Kolmogorov-Smirnov test
+\end{itemize}
+
+\emph{One-sample Kolmogorov-Smirnov test}
+
+\begin{verbatim}
+## 
+##  Asymptotic one-sample Kolmogorov-Smirnov test
+## 
+## data:  inferential_data$total_weight
+## D = 0.99952, p-value < 2.2e-16
+## alternative hypothesis: two-sided
+\end{verbatim}
+
+\emph{Shapiro-Wilk Normality Test}
+
+\begin{verbatim}
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  inferential_data$log_weight
+## W = 0.99601, p-value = 0.0002222
+\end{verbatim}
+
+P value for normality test in \textbf{Shapiro Test} and
+\textbf{Kolmogorov-Smirnov Test} is \textbf{0.0002222} and
+\textbf{2.2e-16} respectively, which is less than 0.05 significance
+level. Therefore, we reject the null hypothesis that the data assumes
+normal distribution.
+
+The two test confirm that we cannot run a multiple linear regression on
+sport fishing data hence switching to non-parametric methods.
+
+\textbf{Kruskal-Wallis Test}
+
+Kruskal-Wallis Test is the alternative test for Analysis of Variance
+(ANOVA) in parametric distribution. \emph{Please note the test is a
+distribution free in other words is a non-parametric method}
+
+\begin{verbatim}
+## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  .
+## Kruskal-Wallis chi-squared = 8124.6, df = 5, p-value < 2.2e-16
+\end{verbatim}
+
+From the output we can see that the chi-squared test statistic is 8124.6
+and the corresponding p-value is 2.2e-16. Since this p-value is less
+than the .05 significance level. We conclude that indeed there is a
+statistical significant difference between the reported fish weight in
+the five fishing zones.
+
+\end{document}
