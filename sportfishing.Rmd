@@ -44,7 +44,7 @@ The Project is aimed answering the following research questions and objectives
 rm(list = ls(all = T))
 
 # set working directory 
-setwd("C:/Users/nishm/Downloads/Jane Daisy_Challenge")
+setwd("~/Jane_Repository/Attachment")
 
 #load packages
 pkgs<-c("tidyverse","janitor","lubridate","viridis","scales","tidyquant","googlesheets4","lemon","MASS","forecast","fpp2","rstatix")
@@ -52,6 +52,8 @@ pkgs<-c("tidyverse","janitor","lubridate","viridis","scales","tidyquant","google
 #install missing packages 
 miss_pkgs <- pkgs[!pkgs %in% installed.packages()[,1]]
 
+
+###if(length(miss_pkgs) > 0) { ... }###
 if(length(miss_pkgs>0)){
   install.packages(miss_pkgs,dependencies = T) 
 }
@@ -59,6 +61,10 @@ if(length(miss_pkgs>0)){
 #loading the packages
 invisible(lapply(pkgs,library,character.only=T))
 ```
+
+
+
+
 
 ## Data Wranging 
 
@@ -77,22 +83,23 @@ This section will cover ;
 
 ```{r read data and clean, message=FALSE, warning=FALSE, include=FALSE}
 #sportfishing <- googlesheets4::range_read('1uVBUfFjcvt9lV8sQ1X8kcHpkTb5yIDDbqU2gbsDFT4o',
-#                                          sheet = 'collective sport fishing catch',
-#                                          range = 'A:H') %>% janitor::clean_names()
+                                    #      sheet = 'collective sport fishing catch',
+                                     #     range = 'A:H') %>% janitor::clean_names()
 
-sportfishing <- readr::read_csv('D:/Kemfri Projects - Nina/sportfishing/data/sportfishing.csv')
+sportfishing <- readr::read_csv('~/Jane_Repository/Attachment/sportfishing.csv')%>%
+  janitor::clean_names()
 
 #cleaning data 
 sportfishing_clean <- sportfishing %>% 
   dplyr::mutate(weight = ifelse(str_detect(weight_in_kgs,'[0-9]'),'yes','no')) %>% 
-  dplyr::filter(weight =='yes') %>% 
+ dplyr::filter(weight =='yes') %>% 
   #convert the formart
   dplyr::mutate(weight_in_kgs = as.numeric(weight_in_kgs),
                 year = as.numeric(year),
                 number_of_boated_catch = as.numeric(number_of_boated_catch),
                 tagged_fish = as.numeric(tagged_fish),
                 #cleaning the data 
-                fish_type = ifelse(fish_type =='Fish type', 'Giant Trevally',fish_type),
+              fish_type = ifelse(fish_type =='Fish type', 'Giant Trevally',fish_type),
                 wrong_entry = ifelse(tagged_fish > number_of_boated_catch,'yes','no'),
                 tagged_fish = ifelse(tagged_fish > number_of_boated_catch, number_of_boated_catch, tagged_fish),
                 #calculate average weight
@@ -100,6 +107,11 @@ sportfishing_clean <- sportfishing %>%
                 release_weight = trunc(tagged_fish * average_weight)) %>%  
   dplyr::select(-weight) %>% 
   dplyr::filter(weight_in_kgs > 0)
+
+#colnames(sportfishing_clean)
+
+readr::write_csv(sportfishing_clean, "~/Jane_Repository/Attachment/sportfishing_clean.csv", na = "")
+
 
 ```
 
@@ -115,10 +127,10 @@ The graph below indicates the annual recorded fish weight in coast region since 
 
 ```{r echo=FALSE, fig.align='center', fig.height=6, fig.width=12, message=FALSE, warning=FALSE}
 #write the csv
-#readr::write_csv(sportfishing_clean,"data/sportfishing.csv",na='')
+readr::write_csv(sportfishing_clean,"~/Jane_Repository/Attachment/sportfishing.csv",na='')
 
 #read data
-#sportfishing_clean <- readr::read_csv('D:/Kemfri Projects - Nina/sportfishing/data/sportfishing.csv')
+sportfishing_clean <- readr::read_csv('~/Jane_Repository/Attachment/sportfishing.csv')
 
 #summarize the data per year
 per_year <- sportfishing_clean %>% 
@@ -294,6 +306,7 @@ The graph above indicates a decrease in weight caught between year 1991 to 1995 
 
 ### Fish Weight Zone Trends
 
+
 This section focus on the trends of caught fish weight per fishing zone. 
 
 ```{r summarizing data, message=FALSE, warning=FALSE, include=FALSE}
@@ -422,6 +435,7 @@ The graph above shows different fish types in several fishing grounds. From the 
 
 \newpage
 
+
 **Fish Type Trends**
 
 To better understand the trends of weight per fish type we fit a generalized model to map the trends effectively this is displayed in the graph attached below. 
@@ -542,6 +556,7 @@ To better understand the trends in weight of the sailfish we fit a generalized m
 
 **General Sailfish Weight Trend**
 
+
 This section concentrates on mapping out the overall trend of sailfish weight over the years.
  
 *Please Note: Year 1991 has been excluded in the plot because it an outlier which skews the analysis*
@@ -575,6 +590,7 @@ sail_fish_per_year %>%
 The graph above shows trends in weight of sailfish from 1992 to 2015. The graph indicates an upward trend in caught weight of fish from 1992 to 2007 from which their is an alarming steep decrease in the weight.
 
 \newpage
+
 
 **Sailfish Weight Trend per Zone**
 
@@ -772,7 +788,7 @@ inferential_data <- sportfishing_clean %>%
   dplyr::mutate(log_weight = log(total_weight),
                 zone = as.character(zone),
                 fish_type = as.character(fish_type),
-                species = as.character(species)
+                Species = as.character(species)
                 ) %>% 
   dplyr::filter(total_weight >  0 )
 ```

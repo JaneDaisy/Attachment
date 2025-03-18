@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 #Libraries
-```{r echo=FALSE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+```{r echo=TRUE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 library(readxl)
 library(ggplot2)
 library(openxlsx) 
@@ -19,7 +19,7 @@ library(dplyr)
 ```
 
 #Summarize Stumps Per Block
-```{r echo=FALSE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+```{r echo=TRUE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 data_excel <- "./Daisy_Challenge2/Mangrove_sample_data.xlsx" 
 df <- read.xlsx(data_excel, sheet = 1)
 
@@ -31,7 +31,7 @@ df_summary <- df %>%
 print(df_summary)  
 ```
 
-```{r echo=FALSE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+```{r echo=TRUE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 ggplot(df_summary, aes(x = Block_Names, y = Total_Stumps, fill = Block_Names)) +
   geom_bar(stat = "identity") + #use actual values from df_summary
   labs(title = "Degradation by Stumps in Different Blocks",
@@ -42,7 +42,7 @@ ggplot(df_summary, aes(x = Block_Names, y = Total_Stumps, fill = Block_Names)) +
 
 ```
 
-```{r echo=FALSE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+```{r echo=TRUE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 data_excelsheet <- "./Daisy_Challenge2/Mangrove_sample_data.xlsx" 
 df1 <- read.xlsx(data_excelsheet, sheet = 1)
 
@@ -53,7 +53,7 @@ df_summary1 <- df1 %>%
 
 print(df_summary1) 
 ```
-```{r echo=FALSE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+```{r echo=TRUE, fig.align='center', fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
 ggplot(df_summary1, aes(x = Forest_Typ, y = Total_Stumps, fill = Forest_Typ)) +
   geom_bar(stat = "identity") + #use actual values from df_summary1
   labs(title = "Degradation by Stumps in Different Blocks",
